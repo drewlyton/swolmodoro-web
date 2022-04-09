@@ -1,6 +1,13 @@
-import { CatchBoundaryComponent } from "@remix-run/react/routeModules";
-import { Link } from "remix";
+import { json, Link, redirect } from "remix";
+import type { LoaderFunction } from "remix";
+import { getUserId } from "~/auth.server";
 import { useOptionalUser } from "~/helpers/helpers";
+
+export const loader: LoaderFunction = async ({ request }) => {
+  const userId = await getUserId(request);
+  if (userId) return redirect("/start");
+  return json({});
+};
 
 export default function Index() {
   const user = useOptionalUser();
