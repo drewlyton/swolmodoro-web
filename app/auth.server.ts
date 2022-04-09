@@ -106,7 +106,7 @@ export async function logout(request: Request) {
 
 export function isProtectedRoute(request: Request): boolean {
   const url = new URL(request.url);
-  const paths = url.pathname.split("/");
+  const paths = url.pathname.split("/").filter((x) => x !== "");
   if (!paths.length) return false;
   return (
     paths.length > 0 &&
