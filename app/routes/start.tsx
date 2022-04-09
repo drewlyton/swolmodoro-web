@@ -1,3 +1,4 @@
+import { Navbar } from "~/components/Navbar/Navbar";
 import type { LoaderFunction } from "remix";
 import { Outlet } from "remix";
 
@@ -7,8 +8,9 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function () {
   return (
-    <div>
-      Hello <Outlet />
-    </div>
+    <>
+      <Navbar />
+      <Outlet />
+    </>
   );
 }
