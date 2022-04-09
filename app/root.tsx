@@ -9,12 +9,15 @@ import {
   useCatch,
 } from "remix";
 import type { LinksFunction, MetaFunction, LoaderFunction } from "remix";
-
-import tailwindStylesheetUrl from "./styles/tailwind.css";
+import tailwindStylesheet from "./styles/tailwind.css";
+import mainStylesheet from "./styles/fonts.css";
 import { getUser } from "./auth.server";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: mainStylesheet },
+    { rel: "stylesheet", href: tailwindStylesheet },
+  ];
 };
 
 export const meta: MetaFunction = () => ({
