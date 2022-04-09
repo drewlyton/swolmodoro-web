@@ -2,6 +2,7 @@ import { createCookieSessionStorage, redirect } from "remix";
 import invariant from "tiny-invariant";
 import type { User } from "~/models/user.server";
 import { getUserById } from "~/models/user.server";
+import publicRoutes from "./publicRoutes";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
@@ -101,4 +102,14 @@ export async function logout(request: Request) {
       "Set-Cookie": await sessionStorage.destroySession(session),
     },
   });
+}
+
+export function isProtectedRoute(request: Request): boolean {
+  const url = new URL(request.url);
+  const paths = url.pathname.split("/");
+  if (!paths.length) return false;
+  return (
+    paths.length > 0 &&
+    paths.filter((x) => publicRoutes.includes(x)).length === 0
+  );
 }
