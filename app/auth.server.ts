@@ -24,7 +24,7 @@ const USER_SESSION_KEY = "userId";
 /* Get the SessionStorage object from the __session cookie */
 export async function getSession(request: Request) {
   const cookie = request.headers.get("Cookie");
-  console.log(cookie);
+  // console.log(cookie);
   return sessionStorage.getSession(cookie);
 }
 
