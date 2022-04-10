@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 
-export const useTimer = (initTime: number): string => {
+export const useTimer = (initTime: number, onEnd?: () => void): string => {
   const [time, setTime] = useState(initTime);
 
   useEffect(() => {
     const countdown = setTimeout(() => {
-      setTime((pastTime) => pastTime - 1);
+      setTime((pastTime) => {
+        if (pastTime - 1) {
+          return pastTime - 1;
+        }
+        if (onEnd) onEnd();
+        return 0;
+      });
     }, 1000);
 
     return () => clearTimeout(countdown);

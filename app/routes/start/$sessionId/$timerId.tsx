@@ -1,11 +1,9 @@
-import { useLoaderData } from "remix";
+import type { Session, Timer } from "@prisma/client";
 import type { LoaderFunction } from "remix";
-import { json } from "remix";
+import { json, useLoaderData } from "remix";
+import { useTimer } from "~/hooks/useTimer";
 import { getSession } from "~/models/session.server";
 import { getTimer } from "~/models/timer.server";
-import type { Session, Timer } from "@prisma/client";
-import { useEffect, useState } from "react";
-import { useTimer } from "~/hooks/useTimer";
 
 type LoaderData = {
   session: Session;
