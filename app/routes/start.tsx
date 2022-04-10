@@ -10,7 +10,9 @@ export default function () {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <div className="container mx-auto">
+        <Outlet />
+      </div>
     </>
   );
 }

@@ -48,8 +48,8 @@ model Timer {
   type   TimerType   @default(FOCUS)
   status TimerStatus @default(ACTIVE)
 
-  Session   Session @relation(fields: [SessionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  SessionId String
+  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  sessionId String
 }
 
 enum TimerType {

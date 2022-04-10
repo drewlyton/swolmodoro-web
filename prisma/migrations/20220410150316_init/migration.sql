@@ -39,7 +39,7 @@ CREATE TABLE "Timer" (
     "length" INTEGER NOT NULL DEFAULT 1500,
     "type" "TimerType" NOT NULL DEFAULT E'FOCUS',
     "status" "TimerStatus" NOT NULL DEFAULT E'ACTIVE',
-    "SessionId" TEXT NOT NULL,
+    "sessionId" TEXT NOT NULL,
 
     CONSTRAINT "Timer_pkey" PRIMARY KEY ("id")
 );
@@ -57,4 +57,4 @@ ALTER TABLE "Password" ADD CONSTRAINT "Password_userId_fkey" FOREIGN KEY ("userI
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Timer" ADD CONSTRAINT "Timer_SessionId_fkey" FOREIGN KEY ("SessionId") REFERENCES "Session"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "Timer" ADD CONSTRAINT "Timer_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "Session"("id") ON DELETE CASCADE ON UPDATE CASCADE;
