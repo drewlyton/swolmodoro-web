@@ -3,35 +3,13 @@ import type { ActionFunction, LoaderFunction } from "remix";
 import { createSession } from "~/models/session.server";
 import { getUserId } from "~/auth.server";
 import { createTimer } from "~/models/timer.server";
+import { getFromFormData } from "~/helpers/form";
 
 type LoaderData = {
   exerciseTypes: string[];
 };
 export const loader: LoaderFunction = async () => {
   return json({ exerciseTypes: ["back", "legs", "chest"] });
-};
-
-export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  const focusLength = formData.get("focus-length");
-  if (typeof focusLength !== "string") {
-    return json(
-      { errors: { "focus-length": "Focus length is required" } },
-      { status: 400 }
-    );
-  }
-
-  const newSession = await createSession({
-    name: "hello",
-    userId: await getUserId(request),
-  });
-
-  const newTimer = await createTimer({
-    length: parseInt(focusLength),
-    sessionId: newSession.id,
-  });
-
-  return redirect(`/start/${newSession.id}/${newTimer.id}`);
 };
 
 const focusLengths = [10, 15, 20, 25, 30, 35, 40, 45];
@@ -46,14 +24,14 @@ export default function () {
       <Form method="post">
         <div className="flex items-center">
           <div>between</div>{" "}
-          <select name="focus-amount" defaultValue={4}>
+          <select name={inputNames.focusAmount} defaultValue={4} required>
             <option value={3}>three</option>
             <option value={4}>four</option>
             <option value={5}>five</option>
           </select>
         </div>
         <div className="flex items-center">
-          <select name="focus-length" defaultValue={25 * 60}>
+          <select name={inputNames.focusLength} defaultValue={25 * 60} required>
             {focusLengths.map((num) => (
               <option key={num} value={num * 60}>
                 {num} minutes
@@ -64,7 +42,7 @@ export default function () {
         </div>
         <div className="flex items-center">I want to work my</div>
         <div className="flex items-center">
-          <select name="first-exercise">
+          <select name={inputNames.firstExerciseType} required>
             {data.exerciseTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
@@ -72,7 +50,7 @@ export default function () {
             ))}
           </select>
           <div>&</div>
-          <select name="second-exercise">
+          <select name={inputNames.secondExerciseType} required>
             {data.exerciseTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
@@ -82,7 +60,7 @@ export default function () {
         </div>
         <div className="flex items-center">
           <div>for</div>{" "}
-          <select name="exercise-length" defaultValue={5 * 60}>
+          <select name={inputNames.breakLength} defaultValue={5 * 60} required>
             {exerciseLengths.map((num) => (
               <option key={num} value={num * 60}>
                 {num} minutes
@@ -97,3 +75,45 @@ export default function () {
     </div>
   );
 }
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+  const focusLength = parseInt(
+    getFromFormData(formData, inputNames.focusLength, (25 * 60).toString())
+  );
+  const focusAmount = parseInt(
+    getFromFormData(formData, inputNames.focusAmount, "4")
+  );
+  const breakLength = parseInt(
+    getFromFormData(formData, inputNames.breakLength, "300")
+  );
+  const exerciseTypes = [
+    getFromFormData(formData, inputNames.firstExerciseType, "back"),
+    getFromFormData(formData, inputNames.secondExerciseType, "chest"),
+  ];
+
+  const newSession = await createSession({
+    name: "hello", // TODO: Get rid of name from Session
+    userId: await getUserId(request),
+  });
+
+  const timers = [];
+  for (let i = 0; i < focusAmount * 2 - 1; i++) {
+    const newTimer = await createTimer({
+      length: i % 2 == 0 ? focusLength : breakLength,
+      sessionId: newSession.id,
+      type: i % 2 == 0 ? "FOCUS" : "EXERCISE",
+    });
+    timers.push(newTimer.id);
+  }
+
+  return redirect(`/start/${newSession.id}/${timers[0]}`);
+};
+
+const inputNames = {
+  focusAmount: "focus-amount",
+  focusLength: "focus-length",
+  breakLength: "break-length",
+  firstExerciseType: "first-exercise-type",
+  secondExerciseType: "second-exercise-type",
+};

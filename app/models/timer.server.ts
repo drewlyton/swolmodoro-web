@@ -1,6 +1,6 @@
 import type { Session, Timer } from "@prisma/client";
 
-import { prisma } from "~/db.server";
+import { db } from "~/db.server";
 
 export type { Timer } from "@prisma/client";
 
@@ -10,13 +10,20 @@ export function getTimer({
 }: Pick<Timer, "id"> & {
   sessionId?: Session["id"];
 }) {
-  return prisma.timer.findFirst({
+  return db.timer.findFirst({
     where: { id, sessionId },
+    include: {
+      session: {
+        include: {
+          timers: true,
+        },
+      },
+    },
   });
 }
 
 export function getTimerListItems({ sessionId }: { sessionId: Session["id"] }) {
-  return prisma.timer.findMany({
+  return db.timer.findMany({
     where: { sessionId },
     select: { id: true },
   });
@@ -25,12 +32,14 @@ export function getTimerListItems({ sessionId }: { sessionId: Session["id"] }) {
 export function createTimer({
   length,
   sessionId,
-}: Pick<Timer, "length"> & {
+  type,
+}: Pick<Timer, "length" | "type"> & {
   sessionId?: Session["id"];
 }) {
-  return prisma.timer.create({
+  return db.timer.create({
     data: {
       length,
+      type,
       session: {
         connect: {
           id: sessionId,
@@ -44,7 +53,7 @@ export function deleteTimer({
   id,
   sessionId,
 }: Pick<Timer, "id"> & { sessionId: Session["id"] }) {
-  return prisma.timer.deleteMany({
+  return db.timer.deleteMany({
     where: { id, sessionId },
   });
 }

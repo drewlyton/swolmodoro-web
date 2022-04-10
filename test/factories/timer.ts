@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client";
-import { prisma } from "~/db.server";
+import { db } from "~/db.server";
 import { ProjectFactory } from "./session";
 
 export const TimerFactory = {
@@ -12,6 +12,6 @@ export const TimerFactory = {
     } as Prisma.TimerCreateInput;
   },
   create: async function (attrs: Partial<Prisma.TimerCreateInput> = {}) {
-    return await prisma.timer.create({ data: TimerFactory.build(attrs) });
+    return await db.timer.create({ data: TimerFactory.build(attrs) });
   },
 };

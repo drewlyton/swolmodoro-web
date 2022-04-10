@@ -1,6 +1,6 @@
 import type { User, Session } from "@prisma/client";
 
-import { prisma } from "~/db.server";
+import { db } from "~/db.server";
 
 export type { Session } from "@prisma/client";
 
@@ -10,13 +10,13 @@ export function getSession({
 }: Pick<Session, "id"> & {
   userId?: User["id"];
 }) {
-  return prisma.session.findFirst({
+  return db.session.findFirst({
     where: { id, userId },
   });
 }
 
 export function getSessionListItems({ userId }: { userId: User["id"] }) {
-  return prisma.session.findMany({
+  return db.session.findMany({
     where: { userId },
     select: { id: true, name: true },
   });
@@ -37,7 +37,7 @@ export function createSession({
         },
       }
     : {};
-  return prisma.session.create({
+  return db.session.create({
     data: {
       name,
       ...attachUserId,
@@ -49,7 +49,7 @@ export function deleteSession({
   id,
   userId,
 }: Pick<Session, "id"> & { userId: User["id"] }) {
-  return prisma.session.deleteMany({
+  return db.session.deleteMany({
     where: { id, userId },
   });
 }
