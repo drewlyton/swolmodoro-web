@@ -16,6 +16,7 @@
     "db:clear": "rm -r postgres-data",
     "db:setup": "run-s db:up db:migrate",
     "db:teardown": "run-s db:down db:clear",
+    "db:studio": "npx prisma studio -p 7777 --browser none",
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
     "dev:remix": "cross-env NODE_ENV=development PORT=3000 binode --require ./mocks -- @remix-run/dev:remix dev",

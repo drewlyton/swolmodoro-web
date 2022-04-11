@@ -33,11 +33,13 @@ Stay focused. Keep movin'.
   npm run validate
   ```
 
-- Start dev server and storybook from `Procfile`:
+- Start the `Procfile`:
 
   ```sh
   overmind start
   ```
+
+- [Visit the app locally](http://localhost:3000), [open Storybook](http://localhost:6006), and the [Prisma Studio](http://localhost:7777)
 
 This starts your app in development mode, rebuilding assets on file changes.
 
