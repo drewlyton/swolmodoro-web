@@ -48,6 +48,20 @@ The database seed script creates a new user with some data you can use to get st
 - Email: `drew@drew.com`
 - Password: `password`
 
+## Scripts
+
+```sh
+npm run db:down # Stop the docker container running the postgres db
+```
+
+```sh
+npm run db:teardown # Stop the docker container and delete the local db files
+```
+
+```sh
+npm run test # Run tests with vitest
+```
+
 ## Deployment
 
 This Remix Stack comes with two GitHub Actions that handle automatically deploying your app to production and staging environments.
