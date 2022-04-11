@@ -32,7 +32,7 @@
     "test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 'cypress run'",
     "typecheck": "tsc -b && tsc -b cypress && tsc -b test/e2e",
     "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
-    "storybook": "start-storybook -p 6006 --quiet",
+    "storybook": "start-storybook -p 6006 --quiet --no-open",
     "build-storybook": "build-storybook"
   },
   "prettier": {},
