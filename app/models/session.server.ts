@@ -12,6 +12,9 @@ export function getSession({
 }) {
   return db.session.findFirst({
     where: { id, userId },
+    include: {
+      timers: true,
+    },
   });
 }
 

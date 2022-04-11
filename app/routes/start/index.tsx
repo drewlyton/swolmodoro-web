@@ -110,7 +110,7 @@ export const action: ActionFunction = async ({ request }) => {
   return redirect(`/start/${newSession.id}/${timers[0]}`);
 };
 
-const inputNames = {
+export const inputNames = {
   focusAmount: "focus-amount",
   focusLength: "focus-length",
   breakLength: "break-length",
