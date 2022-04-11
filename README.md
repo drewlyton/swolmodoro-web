@@ -15,16 +15,16 @@ Stay focused. Keep movin'.
 - Install Project dependencies:
 
   ```sh
-  nvm i // install .nvmrc specified version of Node
+  nvm i # install .nvmrc specified version of Node
   npm i
   ```
 
 - Initial setup
 
   ```sh
-  npm run setup // Run Remix postinstall scripts
-  npm run db:up // Setup the database
-  npm run db:migrate // Migrate the dev and test databases
+  npm run setup # Run Remix postinstall scripts
+  npm run db:up # Setup the database
+  npm run db:migrate # Migrate the dev and test databases
   ```
 
 - Validate the app has been set up properly (optional):
