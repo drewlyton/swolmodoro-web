@@ -1,7 +1,7 @@
 import { truncateDB } from "@/test/helpers/truncateDB";
 import { db } from "~/db.server";
-import { loader as indexLoader } from "./index";
-import { action as timerIdAction } from "./$timerId";
+import { loader as indexLoader } from "~/routes/start/$sessionId/index";
+import { action as timerIdAction } from "~/routes/start/$sessionId/$timerId";
 
 beforeEach(async () => {
   await truncateDB();

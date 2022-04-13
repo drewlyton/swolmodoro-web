@@ -1,6 +1,6 @@
 import { truncateDB } from "@/test/helpers/truncateDB";
 import { db } from "~/db.server";
-import { action, inputNames } from "./index";
+import { action, inputNames } from "~/routes/start/index";
 
 beforeEach(async () => {
   await truncateDB();
