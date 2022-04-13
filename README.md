@@ -25,6 +25,7 @@ Stay focused. Keep movin'.
   npm run setup # Run Remix postinstall scripts
   npm run db:up # Setup the database
   npm run db:migrate # Migrate the dev and test databases
+  npm run db:seed # (Optional) Seed the database with a default user
   ```
 
 - Validate the app has been set up properly (optional):

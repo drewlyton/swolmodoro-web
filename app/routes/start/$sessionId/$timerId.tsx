@@ -7,6 +7,8 @@ import { useTimer } from "~/hooks/useTimer";
 import { getSession } from "~/models/session.server";
 import { getTimer } from "~/models/timer.server";
 import { db } from "~/db.server";
+import { useSound } from "~/hooks/useSound";
+import ding from "@/public/ding.mp3";
 
 type LoaderData = {
   session: Session;
@@ -28,10 +30,13 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function () {
   const data = useLoaderData<LoaderData>();
+  console.log("Rerender");
   const [showNext, setShowNext] = useState(true);
+  const [play] = useSound(ding);
   const onEnd = useCallback(() => {
     setShowNext(true);
-  }, [setShowNext]);
+    play();
+  }, [setShowNext, play]);
 
   const countdown = useTimer(data.timer.length, onEnd);
 
