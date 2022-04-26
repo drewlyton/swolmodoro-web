@@ -44,12 +44,12 @@ export const useTimer = (
     if (paused) {
       // Reconstruct and play
       timer.reconstruct(timeWhenPaused);
-      setPaused(false);
+      play();
     } else {
       setTimeWhenPaused(timer.timeRemaining / 1000);
-      setPaused(true);
+      pause();
     }
-  }, [setPaused, setTimeWhenPaused, paused, timeWhenPaused, timer]);
+  }, [pause, play, paused, timeWhenPaused, timer]);
 
   /* Control end */
   useEffect(() => {
