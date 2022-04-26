@@ -17,9 +17,10 @@ export class CountdownTimer {
 
   countdownString() {
     if (this.time <= this.baseTime) {
-      return "00:00";
+      return zeroString;
     }
-    return new Date(this.timeRemaining).toISOString().slice(14, 19);
+    const timeString = new Date(this.timeRemaining).toISOString().slice(14, 19);
+    return timeString[0] == "0" ? timeString.slice(1, 5) : timeString;
   }
 
   reconstruct(secondsUntilDone?: number) {
@@ -49,3 +50,5 @@ export class CountdownTimer {
     return this.time - this.baseTime;
   }
 }
+
+export const zeroString = "0:00";

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { CountdownTimer } from "~/helpers/timer";
+import { CountdownTimer, zeroString } from "~/helpers/timer";
 
 type useTimerObject = {
   countdownString: string;
@@ -53,7 +53,7 @@ export const useTimer = (
 
   /* Control end */
   useEffect(() => {
-    if (countdownString == "00:00") {
+    if (countdownString == zeroString) {
       pause();
       if (onEnd) onEnd();
     }
