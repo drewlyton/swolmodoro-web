@@ -38,11 +38,11 @@ export class CountdownTimer {
   }
 
   get time() {
-    return this.timer.getTime();
+    return Math.round(this.timer.getTime() / 1000) * 1000;
   }
 
   get baseTime() {
-    return Date.now();
+    return Math.round(Date.now() / 1000) * 1000;
   }
 
   public get timeRemaining() {
