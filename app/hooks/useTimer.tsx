@@ -14,12 +14,11 @@ export const useTimer = (
 ): useTimerObject => {
   const [timer] = useState(new CountdownTimer(initTime));
   const [timeWhenPaused, setTimeWhenPaused] = useState(0);
-  const [countdownString, setCountdownString] = useState("");
+  const [countdownString, setCountdownString] = useState(timer.countdownString);
 
   /* Decrement timer every second and trigger rerender */
   useEffect(() => {
     const tick = setTimeout(() => {
-      console.log("Tick");
       if (!paused) {
         setCountdownString(timer.countdownString());
       }
