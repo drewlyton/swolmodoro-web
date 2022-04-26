@@ -51,7 +51,7 @@ export const useTimer = (
     }
   }, [pause, play, paused, timeWhenPaused, timer]);
 
-  /* Control end */
+  /* Control timer end */
   useEffect(() => {
     if (countdownString == zeroString) {
       pause();
