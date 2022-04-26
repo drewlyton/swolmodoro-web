@@ -38,7 +38,7 @@ export default function () {
     play();
   }, [setShowNext, play]);
 
-  const { countdownString, togglePlay } = useTimer(data.timer.length, onEnd);
+  const { countdownString, togglePlay } = useTimer(10, onEnd);
 
   return (
     <div>

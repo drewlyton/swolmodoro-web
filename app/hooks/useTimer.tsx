@@ -51,6 +51,14 @@ export const useTimer = (
     }
   }, [setPaused, setTimeWhenPaused, paused, timeWhenPaused, timer]);
 
+  /* Control end */
+  useEffect(() => {
+    if (countdownString == "00:00") {
+      pause();
+      if (onEnd) onEnd();
+    }
+  }, [pause, countdownString, onEnd]);
+
   return useMemo(() => {
     return {
       countdownString,
