@@ -1,7 +1,25 @@
-import { timerString } from "./timer";
+import { CountdownTimer, timerString } from "./timer";
 
-describe("Timer helper", () => {
+describe("timeString helper", () => {
   it("timerString(0) should return zero string", () => {
     expect(timerString(0)).toEqual("00:00");
+  });
+});
+
+describe("CountdownTimer class", () => {
+  it("can construct CountdownTimer", () => {
+    expect(new CountdownTimer(10)).toBeInstanceOf(CountdownTimer);
+  });
+
+  it("displays correct timeString", () => {
+    const countdown = new CountdownTimer(25 * 60);
+    expect(countdown.countdownString()).toEqual("25:00");
+  });
+
+  it("displays correct timeString after decrement", () => {
+    vi.setSystemTime(new Date(0));
+    const countdown = new CountdownTimer(25 * 60);
+    vi.setSystemTime(new Date(1000));
+    expect(countdown.countdownString()).toEqual("24:59");
   });
 });

@@ -31,18 +31,19 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function () {
   const data = useLoaderData<LoaderData>();
   console.log("Rerender");
-  const [showNext, setShowNext] = useState(true);
+  const [showNext, setShowNext] = useState(false);
   const [play] = useSound(ding);
   const onEnd = useCallback(() => {
     setShowNext(true);
     play();
   }, [setShowNext, play]);
 
-  const countdown = useTimer(data.timer.length, onEnd);
+  const { countdownString, togglePlay } = useTimer(data.timer.length, onEnd);
 
   return (
     <div>
-      <div>{countdown}</div>
+      <div>{countdownString}</div>
+      <button onClick={togglePlay}>Pause</button>
       {showNext && (
         <Form method="post">
           <button name="_action" value={1} type="submit">

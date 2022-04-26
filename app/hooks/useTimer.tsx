@@ -1,31 +1,61 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { timerString } from "~/helpers/timer";
+import { CountdownTimer } from "~/helpers/timer";
 
-export const useTimer = (initTime: number, onEnd?: () => void): string => {
-  const [time, setTime] = useState(initTime);
-  useEffect(() => {
-    setTime(initTime); // Reset timer if init time changes
-  }, [initTime]);
-  const [running, setRunning] = useState(false);
+type useTimerObject = {
+  countdownString: string;
+  play: () => void;
+  pause: () => void;
+  togglePlay: () => void;
+};
 
-  const countdown = useCallback(() => {}, []);
+export const useTimer = (
+  initTime: number,
+  onEnd?: () => void
+): useTimerObject => {
+  const [timer] = useState(new CountdownTimer(initTime));
+  const [timeWhenPaused, setTimeWhenPaused] = useState(0);
+  const [countdownString, setCountdownString] = useState("");
 
+  /* Decrement timer every second and trigger rerender */
   useEffect(() => {
     const tick = setTimeout(() => {
-      setTime((pastTime) => {
-        if (pastTime > 0) {
-          return pastTime - 1;
-        }
-        return 0;
-      });
+      console.log("Tick");
+      if (!paused) {
+        setCountdownString(timer.countdownString());
+      }
     }, 1000);
 
     return () => clearTimeout(tick);
   });
 
-  useEffect(() => {
-    if (time == 0 && onEnd) onEnd();
-  }, [time, onEnd]);
+  /* Control pause/play */
+  const [paused, setPaused] = useState(false);
 
-  return useMemo(() => timerString(time), [time]);
+  const play = useCallback(() => {
+    setPaused(false);
+  }, [setPaused]);
+
+  const pause = useCallback(() => {
+    setPaused(true);
+  }, [setPaused]);
+
+  const togglePlay = useCallback(() => {
+    if (paused) {
+      // Reconstruct and play
+      timer.reconstruct(timeWhenPaused);
+      setPaused(false);
+    } else {
+      setTimeWhenPaused(timer.timeRemaining / 1000);
+      setPaused(true);
+    }
+  }, [setPaused, setTimeWhenPaused, paused, timeWhenPaused, timer]);
+
+  return useMemo(() => {
+    return {
+      countdownString,
+      play,
+      pause,
+      togglePlay,
+    };
+  }, [countdownString, play, pause, togglePlay]);
 };
