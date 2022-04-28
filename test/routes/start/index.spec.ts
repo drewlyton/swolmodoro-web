@@ -35,7 +35,6 @@ describe("Start action", () => {
       context: {},
     });
     const timers = await db.timer.findMany();
-    expect(timers.length).toEqual(5);
     expect(timers?.[0].length).toBe(2000);
     expect(timers?.[1].length).toBe(400);
     expect(response.status).toEqual(302);

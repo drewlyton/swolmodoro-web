@@ -17,9 +17,10 @@ describe("CountdownTimer class", () => {
   });
 
   it("displays correct timeString after decrement", () => {
-    vi.setSystemTime(new Date(0));
+    vi.useFakeTimers();
     const countdown = new CountdownTimer(25 * 60);
-    vi.setSystemTime(new Date(1000));
+    vi.advanceTimersByTime(1000);
     expect(countdown.countdownString()).toEqual("24:59");
+    vi.useRealTimers();
   });
 });

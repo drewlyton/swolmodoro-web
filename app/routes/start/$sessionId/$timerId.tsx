@@ -1,14 +1,13 @@
+import ding from "@/public/ding.mp3";
 import type { Session, Timer } from "@prisma/client";
 import { useCallback, useState } from "react";
-import { redirect } from "remix";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, useLoaderData } from "remix";
-import { useTimer } from "~/hooks/useTimer";
-import { getSession } from "~/models/session.server";
-import { getTimer } from "~/models/timer.server";
+import { Form, json, redirect, useLoaderData } from "remix";
+import { CountdownClock } from "~/components/CountdownClock/CountdownClock";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
-import ding from "@/public/ding.mp3";
+import { getSession } from "~/models/session.server";
+import { getTimer } from "~/models/timer.server";
 
 type LoaderData = {
   session: Session;
@@ -30,7 +29,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function () {
   const data = useLoaderData<LoaderData>();
-  console.log("Rerender");
+
   const [showNext, setShowNext] = useState(false);
   const [play] = useSound(ding);
   const onEnd = useCallback(() => {
@@ -38,12 +37,9 @@ export default function () {
     play();
   }, [setShowNext, play]);
 
-  const { countdownString, togglePlay } = useTimer(10, onEnd);
-
   return (
     <div>
-      <div>{countdownString}</div>
-      <button onClick={togglePlay}>Pause</button>
+      <CountdownClock length={data.timer.length} onEnd={onEnd} />
       {showNext && (
         <Form method="post">
           <button name="_action" value={1} type="submit">
