@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import { CountdownClock } from "./CountdownClock";
 
@@ -39,4 +39,14 @@ test("Clicking pause/play button should stop/start timer", async () => {
   togglePlay.click();
   vi.advanceTimersByTime(1000);
   expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:00");
+});
+
+test("Runs onEnd if timer ends", async () => {
+  const onEnd = vi.fn();
+  render(<CountdownClock length={1} onEnd={onEnd} />);
+  vi.advanceTimersByTime(1000);
+  await waitFor(() => {
+    expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:00");
+  });
+  expect(onEnd).toHaveBeenCalled();
 });
