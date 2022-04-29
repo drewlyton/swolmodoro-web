@@ -6,6 +6,7 @@ type useTimerObject = {
   play: () => void;
   pause: () => void;
   togglePlay: () => void;
+  percentCompleted: number;
 };
 
 export const useTimer = (
@@ -18,11 +19,16 @@ export const useTimer = (
     timer.countdownString()
   );
 
+  const [percentCompleted, setPercentCompleted] = useState(
+    timer.percentComplete()
+  );
+
   /* Decrement timer every second and trigger rerender */
   useEffect(() => {
     const tick = setTimeout(() => {
       if (!paused) {
         setCountdownString(timer.countdownString());
+        setPercentCompleted(timer.percentComplete());
       }
     }, 1000);
 
@@ -74,6 +80,7 @@ export const useTimer = (
       play,
       pause,
       togglePlay,
+      percentCompleted,
     };
-  }, [countdownString, play, pause, togglePlay]);
+  }, [countdownString, play, pause, togglePlay, percentCompleted]);
 };

@@ -23,4 +23,12 @@ describe("CountdownTimer class", () => {
     expect(countdown.countdownString()).toEqual("24:59");
     vi.useRealTimers();
   });
+
+  it("calculates correct percent time remaining", () => {
+    vi.useFakeTimers();
+    const countdown = new CountdownTimer(60);
+    vi.advanceTimersByTime(1000);
+    expect(countdown.percentComplete()).toEqual((1 / 60) * 100);
+    vi.useRealTimers();
+  });
 });

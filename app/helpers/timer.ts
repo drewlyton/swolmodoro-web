@@ -5,6 +5,7 @@ export function timerString(time: number): string {
 
 export class CountdownTimer {
   dateComplete = new Date();
+  totalTime = 0;
 
   constructor(secondsUntilDone: number) {
     if (!secondsUntilDone)
@@ -13,6 +14,7 @@ export class CountdownTimer {
       );
     // take timeUntilDone in seconds and figure out date of completed timer
     this.reconstruct(secondsUntilDone);
+    this.totalTime = secondsUntilDone * 1000;
   }
 
   countdownString() {
@@ -21,6 +23,10 @@ export class CountdownTimer {
     }
     const timeString = new Date(this.timeRemaining).toISOString().slice(14, 19);
     return timeString[0] == "0" ? timeString.slice(1, 5) : timeString;
+  }
+
+  percentComplete() {
+    return ((this.totalTime - this.timeRemaining) / this.totalTime) * 100;
   }
 
   reconstruct(secondsUntilDone?: number) {
