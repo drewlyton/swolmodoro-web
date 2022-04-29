@@ -12,7 +12,8 @@ export const useTimer = (
   initTime: number,
   onEnd?: () => void
 ): useTimerObject => {
-  const [timer] = useState(new CountdownTimer(initTime));
+  const [timer, setTimer] = useState(new CountdownTimer(initTime));
+
   const [countdownString, setCountdownString] = useState(
     timer.countdownString()
   );
@@ -58,6 +59,14 @@ export const useTimer = (
       if (onEnd) onEnd();
     }
   }, [pause, countdownString, onEnd]);
+
+  // When initTime changes, reset the timer to first values.
+  useEffect(() => {
+    const newTimer = new CountdownTimer(initTime);
+    setTimer(newTimer);
+    setPaused(false);
+    setCountdownString(newTimer.countdownString());
+  }, [initTime]);
 
   return useMemo(() => {
     return {

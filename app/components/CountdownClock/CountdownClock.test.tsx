@@ -50,3 +50,11 @@ test("Runs onEnd if timer ends", async () => {
   });
   expect(onEnd).toHaveBeenCalled();
 });
+
+test("Should restart countdown with new length", async () => {
+  const { rerender } = render(<CountdownClock length={1} />);
+  vi.advanceTimersByTime(1000);
+  rerender(<CountdownClock length={2} />);
+
+  expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:02");
+});
