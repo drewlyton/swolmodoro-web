@@ -23,8 +23,8 @@ export default function () {
   return (
     <div>
       <h2 className="mb-3 font-nunito text-4xl font-bold">Today,</h2>
-      <Form method="post">
-        <div className="flex items-center">
+      <Form method="post" className="space-y-6">
+        <div className="flex items-center space-x-4">
           <div>between</div>{" "}
           <Select name={inputNames.focusAmount} defaultValue={4} required>
             <option value={3} className="text-base">
@@ -34,43 +34,51 @@ export default function () {
             <option value={5}>five</option>
           </Select>
         </div>
-        <div className="flex items-center">
-          <select name={inputNames.focusLength} defaultValue={25 * 60} required>
+        <div className="flex items-center space-x-4">
+          <Select name={inputNames.focusLength} defaultValue={25 * 60} required>
             {focusLengths.map((num) => (
               <option key={num} value={num * 60}>
-                {num} minutes
+                {num} minute
               </option>
             ))}
-          </select>
+          </Select>
           <div>focus sessions,</div>
         </div>
         <div className="flex items-center">I want to work my</div>
-        <div className="flex items-center">
-          <select name={inputNames.firstExerciseType} required>
+        <div className="flex items-center space-x-4">
+          <Select
+            name={inputNames.firstExerciseType}
+            required
+            defaultValue={"legs"}
+          >
             {data.exerciseTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
             ))}
-          </select>
+          </Select>
           <div>&</div>
-          <select name={inputNames.secondExerciseType} required>
+          <Select
+            name={inputNames.secondExerciseType}
+            required
+            defaultValue={"back"}
+          >
             {data.exerciseTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
-        <div className="flex items-center">
+        <div className="flex items-center space-x-4">
           <div>for</div>{" "}
-          <select name={inputNames.breakLength} defaultValue={5 * 60} required>
+          <Select name={inputNames.breakLength} defaultValue={5 * 60} required>
             {exerciseLengths.map((num) => (
               <option key={num} value={num * 60}>
                 {num} minutes
               </option>
             ))}
-          </select>
+          </Select>
         </div>
         <Button type="submit" name="create-session" className="w-full">
           Start Timer

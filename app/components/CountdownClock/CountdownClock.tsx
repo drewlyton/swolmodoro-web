@@ -17,7 +17,7 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
   );
   return (
     <>
-      <div data-testid="countdown-text" className="my-6 text-7xl">
+      <div data-testid="countdown-text" className="my-6 text-7xl" role="timer">
         {countdownString}
       </div>
       <div className={"my-5 h-1 w-full rounded-md bg-gray-200"}>

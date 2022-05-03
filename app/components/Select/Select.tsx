@@ -1,5 +1,5 @@
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
+import { SelectorIcon } from "@heroicons/react/solid";
 import React, { Fragment, useMemo, useState } from "react";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
@@ -18,9 +18,7 @@ export const Select: React.FC<SelectProps> = ({
         if (!React.isValidElement<HTMLOptionElement>(option)) {
           return;
         }
-        if (typeof option.props.children === "string") {
-          return { name: option.props.children, value: option.props.value };
-        }
+        return { name: option.props.children, value: option.props.value };
       }),
     [children]
   );
@@ -33,7 +31,12 @@ export const Select: React.FC<SelectProps> = ({
       <input type="hidden" value={selected.value} hidden name={name} />
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="relative w-full border-b-2 border-tomato bg-inherit pr-10 text-left text-2xl font-bold text-tomato hover:opacity-80  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300">
+          <Listbox.Button
+            className={[
+              "relative w-full min-w-[7rem] border-b-2 border-tomato bg-inherit pr-10 text-left text-2xl font-bold text-tomato hover:opacity-80  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300",
+              className,
+            ].join(" ")}
+          >
             <span className="block truncate text-2xl">
               {selected.name || placeholder || "Please select..."}
             </span>
@@ -50,7 +53,7 @@ export const Select: React.FC<SelectProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute mt-1 max-h-60 w-full rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-md bg-white py-1 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {options &&
                 options.map((option, i) => {
                   return (
@@ -58,7 +61,7 @@ export const Select: React.FC<SelectProps> = ({
                       key={i}
                       className={({ active }) =>
                         `relative select-none py-2 px-3 hover:cursor-pointer ${
-                          active && "bg-gray-400 text-tomato"
+                          active && "bg-tomato bg-opacity-10 text-tomato"
                         }`
                       }
                       value={option}
@@ -86,6 +89,6 @@ export const Select: React.FC<SelectProps> = ({
 };
 
 type Option = {
-  name: string;
+  name: string | HTMLCollection;
   value: string | number | readonly string[] | undefined;
 };

@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
 import { json, redirect, useLoaderData, useSubmit } from "remix";
 import { CountdownClock } from "~/components/CountdownClock/CountdownClock";
+import { Logo } from "~/components/Logo";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
 import { getSession } from "~/models/session.server";
@@ -44,6 +45,9 @@ export default function () {
       </div>
       <div className="font-nunito text-2xl font-bold uppercase">
         {data.timer.type === "EXERCISE" ? "Back Wall Slides" : "Time To Work"}
+      </div>
+      <div className="w-2/5 py-7">
+        <Logo />
       </div>
       <CountdownClock length={data.timer.length} onEnd={onEnd} />
     </>
