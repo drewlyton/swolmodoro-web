@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/solid";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useMemo, useState } from "react";
 
 interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
 
@@ -12,28 +12,34 @@ export const Select: React.FC<SelectProps> = ({
   defaultValue,
   ...props
 }) => {
+  const options = useMemo(
+    () =>
+      React.Children.map(children, (option) => {
+        if (!React.isValidElement<HTMLOptionElement>(option)) {
+          return;
+        }
+        if (typeof option.props.children === "string") {
+          return { name: option.props.children, value: option.props.value };
+        }
+      }),
+    [children]
+  );
   const [selected, setSelected] = useState<Option>({
-    name: "",
+    name: options?.find((option) => option.value === defaultValue)?.name || "",
     value: defaultValue,
-  });
-  const options = React.Children.map(children, (option) => {
-    if (!React.isValidElement<HTMLOptionElement>(option)) {
-      return;
-    }
-    return { name: option.props.children, value: option.props.value };
   });
   return (
     <>
       <input type="hidden" value={selected.value} hidden name={name} />
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
-          <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-            <span className="block truncate">
+          <Listbox.Button className="relative w-full border-b-2 border-tomato bg-inherit pr-10 text-left text-2xl font-bold text-tomato hover:opacity-80  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300">
+            <span className="block truncate text-2xl">
               {selected.name || placeholder || "Please select..."}
             </span>
-            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2 text-tomato">
               <SelectorIcon
-                className="h-5 w-5 text-gray-400"
+                className="h-5 w-5 text-tomato"
                 aria-hidden="true"
               />
             </span>
@@ -51,10 +57,8 @@ export const Select: React.FC<SelectProps> = ({
                     <Listbox.Option
                       key={i}
                       className={({ active }) =>
-                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                          active
-                            ? "bg-amber-100 text-amber-900"
-                            : "text-gray-900"
+                        `relative select-none py-2 px-3 hover:cursor-pointer ${
+                          active && "bg-gray-400 text-tomato"
                         }`
                       }
                       value={option}
@@ -63,19 +67,11 @@ export const Select: React.FC<SelectProps> = ({
                         <>
                           <span
                             className={`block ${
-                              selected ? "font-medium" : "font-normal"
+                              selected ? "font-bold text-tomato" : "font-normal"
                             }`}
                           >
                             {option.name}
                           </span>
-                          {selected ? (
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                              <CheckIcon
-                                className="h-5 w-5"
-                                aria-hidden="true"
-                              />
-                            </span>
-                          ) : null}
                         </>
                       )}
                     </Listbox.Option>
@@ -85,16 +81,6 @@ export const Select: React.FC<SelectProps> = ({
           </Transition>
         </div>
       </Listbox>
-      <select
-        data-testid="select"
-        className={[
-          "border-b-2 border-tomato bg-inherit text-2xl font-bold text-tomato hover:opacity-80",
-          className,
-        ].join(" ")}
-        {...props}
-      >
-        {children}
-      </select>
     </>
   );
 };
