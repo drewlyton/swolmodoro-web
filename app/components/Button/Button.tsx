@@ -8,15 +8,11 @@ interface ButtonProps {
   /**
    * What background color to use
    */
-  backgroundColor?: string;
+  type?: "contained" | "normal";
   /**
    * How large should the button be?
    */
   size?: "small" | "medium" | "large";
-  /**
-   * Button contents
-   */
-  label: string;
   /**
    * Optional click handler
    */
@@ -29,23 +25,19 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   primary = false,
   size = "medium",
-  backgroundColor,
-  label,
+  type = "normal",
+  children,
   ...props
 }) => {
-  const mode = primary
-    ? "storybook-button--primary"
-    : "storybook-button--secondary";
   return (
     <button
       type="button"
-      className={["storybook-button", `storybook-button--${size}`, mode].join(
-        " "
-      )}
-      style={{ backgroundColor }}
+      className={
+        "rounded-md bg-tomato px-7 py-3 font-nunito font-bold text-white transition-all hover:opacity-80"
+      }
       {...props}
     >
-      {label}
+      {children}
     </button>
   );
 };

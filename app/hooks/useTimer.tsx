@@ -7,6 +7,7 @@ type useTimerObject = {
   pause: () => void;
   togglePlay: () => void;
   percentCompleted: number;
+  paused: boolean;
 };
 
 export const useTimer = (
@@ -79,8 +80,9 @@ export const useTimer = (
       countdownString,
       play,
       pause,
+      paused,
       togglePlay,
       percentCompleted,
     };
-  }, [countdownString, play, pause, togglePlay, percentCompleted]);
+  }, [countdownString, play, pause, paused, togglePlay, percentCompleted]);
 };

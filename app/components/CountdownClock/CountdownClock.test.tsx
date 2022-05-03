@@ -32,6 +32,7 @@ test("Clicking pause/play button should stop/start timer", async () => {
   togglePlay.click();
   vi.advanceTimersByTime(1000);
   expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:01");
+  expect(screen.getByRole("button")).toHaveTextContent("Play");
   vi.advanceTimersByTime(1000);
   expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:01");
 
