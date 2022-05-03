@@ -1,4 +1,4 @@
-import ding from "@/public/ding.mp3";
+import dingSound from "@/public/ding.mp3";
 import type { Session, Timer } from "@prisma/client";
 import { useCallback, useState } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
@@ -31,14 +31,20 @@ export default function () {
   const data = useLoaderData<LoaderData>();
 
   const [showNext, setShowNext] = useState(false);
-  const [play] = useSound(ding);
+  const [ding] = useSound(dingSound);
   const onEnd = useCallback(() => {
     setShowNext(true);
-    play();
-  }, [setShowNext, play]);
+    ding();
+  }, [setShowNext, ding]);
 
   return (
-    <div>
+    <div className="my-0 mx-auto flex max-w-md flex-col items-center justify-center">
+      <div className="font-nunito text-xs font-bold uppercase text-tomato">
+        {data.timer.type} SESSION
+      </div>
+      <div className="font-nunito text-2xl font-bold uppercase">
+        {data.timer.type === "EXERCISE" ? "Back Wall Slides" : "Time To Work"}
+      </div>
       <CountdownClock length={data.timer.length} onEnd={onEnd} />
       {showNext && (
         <Form method="post">

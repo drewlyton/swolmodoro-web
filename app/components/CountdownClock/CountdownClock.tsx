@@ -17,11 +17,18 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
   );
   return (
     <>
-      <div data-testid="countdown-text">{countdownString}</div>
-      <progress id="progress-bar" max="100" value={percentCompleted}>
-        {percentCompleted}/100
-      </progress>
-      <Button onClick={togglePlay}>{paused ? "Play" : "Pause"}</Button>
+      <div data-testid="countdown-text" className="my-6 text-7xl">
+        {countdownString}
+      </div>
+      <div className={"my-5 h-1 w-full rounded-md bg-gray-200"}>
+        <div
+          className="h-1 rounded-md bg-tomato transition-all"
+          style={{ width: `${percentCompleted}%` }}
+        ></div>
+      </div>
+      <Button onClick={togglePlay} className="w-full">
+        {paused ? "Play" : "Pause"}
+      </Button>
     </>
   );
 };
