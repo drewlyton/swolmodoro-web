@@ -5,6 +5,7 @@ import { getUserId } from "~/auth.server";
 import { createTimer } from "~/models/timer.server";
 import { getFromFormData } from "~/helpers/form";
 import { Button } from "~/components/Button";
+import { Select } from "~/components/Select";
 
 type LoaderData = {
   exerciseTypes: string[];
@@ -25,16 +26,13 @@ export default function () {
       <Form method="post">
         <div className="flex items-center">
           <div>between</div>{" "}
-          <select
-            name={inputNames.focusAmount}
-            defaultValue={4}
-            required
-            className="px-3 py-2"
-          >
-            <option value={3}>three</option>
+          <Select name={inputNames.focusAmount} defaultValue={4} required>
+            <option value={3} className="text-base">
+              three
+            </option>
             <option value={4}>four</option>
             <option value={5}>five</option>
-          </select>
+          </Select>
         </div>
         <div className="flex items-center">
           <select name={inputNames.focusLength} defaultValue={25 * 60} required>
