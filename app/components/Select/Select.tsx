@@ -9,9 +9,13 @@ export const Select: React.FC<SelectProps> = ({
   className,
   name,
   placeholder,
+  defaultValue,
   ...props
 }) => {
-  const [selected, setSelected] = useState<Option>({ name: "", value: 0 });
+  const [selected, setSelected] = useState<Option>({
+    name: "",
+    value: defaultValue,
+  });
   const options = React.Children.map(children, (option) => {
     if (!React.isValidElement<HTMLOptionElement>(option)) {
       return;
@@ -97,5 +101,5 @@ export const Select: React.FC<SelectProps> = ({
 
 type Option = {
   name: string;
-  value: string | number;
+  value: string | number | readonly string[] | undefined;
 };
