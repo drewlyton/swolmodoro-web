@@ -1,6 +1,6 @@
 import React from "react";
 import { useTimer } from "~/hooks/useTimer";
-import { Button } from "../Button/Button";
+import { Button } from "../Button";
 
 type CountdownClockTypes = {
   length: number;

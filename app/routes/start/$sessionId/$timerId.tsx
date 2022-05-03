@@ -38,7 +38,7 @@ export default function () {
   }, [submit, ding]);
 
   return (
-    <div className="my-0 mx-auto flex max-w-md flex-col items-center justify-center">
+    <>
       <div className="font-nunito text-xs font-bold uppercase text-tomato">
         {data.timer.type} SESSION
       </div>
@@ -46,7 +46,7 @@ export default function () {
         {data.timer.type === "EXERCISE" ? "Back Wall Slides" : "Time To Work"}
       </div>
       <CountdownClock length={data.timer.length} onEnd={onEnd} />
-    </div>
+    </>
   );
 }
 

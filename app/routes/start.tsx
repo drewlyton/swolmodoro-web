@@ -10,7 +10,7 @@ export default function () {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto">
+      <div className="my-0 mx-auto flex max-w-md flex-col items-center justify-center">
         <Outlet />
       </div>
     </>

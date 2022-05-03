@@ -1,6 +1,6 @@
 import React from "react";
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Is this the principal call to action on the page?
    */
@@ -8,12 +8,7 @@ interface ButtonProps {
   /**
    * What background color to use
    */
-  type?: "contained" | "normal";
-  /**
-   * What background color to use
-   */
-  className?: string;
-  /**
+  display?: "contained" | "normal";
   /**
    * How large should the button be?
    */
@@ -30,7 +25,7 @@ interface ButtonProps {
 export const Button: React.FC<ButtonProps> = ({
   primary = false,
   size = "medium",
-  type = "normal",
+  display = "normal",
   children,
   className,
   ...props

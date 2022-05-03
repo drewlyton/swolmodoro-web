@@ -4,6 +4,7 @@ import { createSession } from "~/models/session.server";
 import { getUserId } from "~/auth.server";
 import { createTimer } from "~/models/timer.server";
 import { getFromFormData } from "~/helpers/form";
+import { Button } from "~/components/Button";
 
 type LoaderData = {
   exerciseTypes: string[];
@@ -20,11 +21,16 @@ export default function () {
   const data = useLoaderData<LoaderData>();
   return (
     <div>
-      <h2 className="mb-3 font-nunito text-4xl">Today,</h2>
+      <h2 className="mb-3 font-nunito text-4xl font-bold">Today,</h2>
       <Form method="post">
         <div className="flex items-center">
           <div>between</div>{" "}
-          <select name={inputNames.focusAmount} defaultValue={4} required>
+          <select
+            name={inputNames.focusAmount}
+            defaultValue={4}
+            required
+            className="px-3 py-2"
+          >
             <option value={3}>three</option>
             <option value={4}>four</option>
             <option value={5}>five</option>
@@ -68,9 +74,9 @@ export default function () {
             ))}
           </select>
         </div>
-        <button type="submit" name="create-session">
-          Submit
-        </button>
+        <Button type="submit" name="create-session" className="w-full">
+          Start Timer
+        </Button>
       </Form>
     </div>
   );
