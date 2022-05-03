@@ -7,6 +7,7 @@ export const loader: LoaderFunction = async ({ params }) => {
   const session = await getSession({ id: params.sessionId });
   if (!session) throw new Response("No Session found", { status: 404 });
   const nextTimer = session.timers.find((x) => x.status === "ACTIVE");
+  if (!nextTimer) return redirect("/start");
   // Take user to next active timer
   return redirect(`/start/${session.id}/${nextTimer?.id}`);
 };

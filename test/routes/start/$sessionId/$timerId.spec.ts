@@ -1,4 +1,3 @@
-import { getRedirectURL } from "@/test/helpers/getRedirectURL";
 import { truncateDB } from "@/test/helpers/truncateDB";
 import { db } from "~/db.server";
 import { action } from "~/routes/start/$sessionId/$timerId";
