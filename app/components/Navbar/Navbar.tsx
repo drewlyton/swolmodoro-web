@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "remix";
 import { Logo } from "../Logo";
+import favicon from "../../../public/favicon.png";
 
 type Props = {};
 
@@ -12,6 +13,9 @@ export const Navbar: React.FC<Props> = () => {
   return (
     <nav className="my-0 mx-auto w-full max-w-lg border-b-2 border-b-gray-200 bg-sand py-5 font-nunito">
       <div className="container mx-auto flex items-center">
+        <div className="mr-2">
+          <img src={favicon} width="30px" alt="Logo" />
+        </div>
         <div className="flex-grow-0 font-nunito font-bold text-gray-600">
           swolmodoro
         </div>

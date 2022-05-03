@@ -1,4 +1,4 @@
-import dingSound from "@/public/ding.mp3";
+import dingSound from "@/public/whistle.mp3";
 import type { Session, Timer } from "@prisma/client";
 import { useCallback } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
