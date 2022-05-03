@@ -3,7 +3,7 @@ import type { Session, Timer } from "@prisma/client";
 import { useCallback } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
 import { json, redirect, useLoaderData, useSubmit } from "remix";
-import { CountdownClock } from "~/components/CountdownClock/CountdownClock";
+import { CountdownClock } from "~/components/CountdownClock";
 import { Logo } from "~/components/Logo";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
