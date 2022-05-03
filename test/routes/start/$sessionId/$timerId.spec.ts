@@ -50,7 +50,6 @@ describe("$timerId", () => {
     });
     expect(updatedTimer1?.status).toBe("FINISHED");
 
-    expect(response.status).toBe(302);
-    expect(getRedirectURL(response)).toBe(`/start/${session.id}`);
+    expect(response).toRedirectTo(`/start/${session.id}`);
   });
 });
