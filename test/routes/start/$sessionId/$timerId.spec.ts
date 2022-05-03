@@ -1,3 +1,4 @@
+import { getRedirectURL } from "@/test/helpers/getRedirectURL";
 import { truncateDB } from "@/test/helpers/truncateDB";
 import { db } from "~/db.server";
 import { action } from "~/routes/start/$sessionId/$timerId";
@@ -50,6 +51,6 @@ describe("$timerId", () => {
     expect(updatedTimer1?.status).toBe("FINISHED");
 
     expect(response.status).toBe(302);
-    expect(response.headers.get("Location")).toBe(`/start/${session.id}`);
+    expect(getRedirectURL(response)).toBe(`/start/${session.id}`);
   });
 });
