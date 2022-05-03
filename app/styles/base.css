@@ -1,0 +1,16 @@
+*:focus {
+   outline-width: 2px;
+   outline-color: rgba(0, 123, 31, 0.8);
+   animation: offsetAni 1500ms ease-in-out infinite;
+}
+@keyframes offsetAni {
+    0% {
+        outline-offset: 2px;
+    }
+    50% {
+      outline-offset: 6px;
+    }
+    100% {
+        outline-offset: 2px;
+    }
+}

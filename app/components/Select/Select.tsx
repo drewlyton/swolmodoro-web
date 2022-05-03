@@ -33,7 +33,7 @@ export const Select: React.FC<SelectProps> = ({
         <div className="relative">
           <Listbox.Button
             className={[
-              "relative w-full min-w-[7rem] border-b-2 border-tomato bg-inherit pr-10 text-left text-2xl font-bold text-tomato hover:opacity-80  focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300",
+              "relative w-full min-w-[7rem] border-b-2 border-tomato bg-inherit pr-10 text-left text-2xl font-bold text-tomato hover:opacity-80  ",
               className,
             ].join(" ")}
           >
@@ -53,7 +53,7 @@ export const Select: React.FC<SelectProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-md bg-white py-1 text-base shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-50 mt-1 max-h-60 w-full overflow-y-auto overflow-x-hidden rounded-md bg-white py-1 text-base shadow-xl ">
               {options &&
                 options.map((option, i) => {
                   return (

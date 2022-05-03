@@ -10,12 +10,14 @@ import {
   useCatch,
 } from "remix";
 import { getUser, isProtectedRoute, requireUser } from "./auth.server";
-import mainStylesheet from "./styles/fonts.css";
+import mainStylesheet from "./styles/base.css";
+import fontStylesheet from "./styles/fonts.css";
 import tailwindStylesheet from "./styles/tailwind.css";
 
 export const links: LinksFunction = () => {
   return [
     { rel: "stylesheet", href: mainStylesheet },
+    { rel: "stylesheet", href: fontStylesheet },
     { rel: "stylesheet", href: tailwindStylesheet },
   ];
 };
