@@ -17,9 +17,9 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
   return (
     <>
       <div data-testid="countdown-text">{countdownString}</div>
-      <meter id="fuel" min="0" max="100" value={percentCompleted}>
-        at {percentCompleted}/100
-      </meter>
+      <progress id="progress-bar" max="100" value={percentCompleted}>
+        {percentCompleted}/100
+      </progress>
       <button onClick={togglePlay}>Pause</button>
     </>
   );
