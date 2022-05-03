@@ -44,7 +44,6 @@ describe("$timerId", () => {
       params: { sessionId: session.id, timerId: timer1.id },
       context: {},
     });
-    console.log();
     const updatedTimer1 = await db.timer.findFirst({
       where: { id: timer1.id },
     });
