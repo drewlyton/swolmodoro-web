@@ -1,7 +1,7 @@
 import dingSound from "@/public/whistle.mp3";
 import type { Session, Timer } from "@prisma/client";
 import { useCallback, useMemo } from "react";
-import type { ActionFunction, LoaderFunction } from "remix";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
 import { json, redirect, useLoaderData, useSubmit } from "remix";
 import { CountdownClock } from "~/components/CountdownClock";
 import { Logo } from "~/components/Logo";
@@ -26,6 +26,14 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   if (!timer || !session) return redirect("/start");
   return json<LoaderData>({ session: session, timer }, 200);
+};
+
+export const meta: MetaFunction = ({ data }) => {
+  const { timer } = data as LoaderData;
+  return {
+    charset: "utf-8",
+    title: `${timer.type === "EXERCISE" ? "Get movin!" : "Get to work!"}`,
+  };
 };
 
 export default function () {
