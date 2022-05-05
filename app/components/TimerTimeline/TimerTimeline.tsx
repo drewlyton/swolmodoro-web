@@ -13,7 +13,7 @@ export const TimerTimeline: React.FC<TimerTimelineProps> = ({
     <div className="flex items-center justify-center" data-testid="timeline">
       {timers.map((timer, index) => {
         const lineAfter = index !== timers.length - 1;
-        const icon = timer.type === "EXERCISE" ? "💪" : "💻";
+        const icon = timer.type === "EXERCISE" ? "🏋🏽" : "💻";
         const isActiveTimer = timer.id === active;
         return (
           <div
@@ -29,7 +29,7 @@ export const TimerTimeline: React.FC<TimerTimelineProps> = ({
                   "inline-flex items-center justify-center rounded-full ",
                   timer.status === "FINISHED" ? "bg-gold-900" : "",
                   isActiveTimer
-                    ? "h-10 w-10 bg-tomato bg-opacity-30"
+                    ? "h-11 w-11 bg-gold-900 bg-opacity-80"
                     : "h-8 w-8 bg-gray-200",
                 ].join(" ")}
               >
@@ -46,7 +46,9 @@ export const TimerTimeline: React.FC<TimerTimelineProps> = ({
               <div
                 className={[
                   "h-1 w-full flex-grow ",
-                  timer.status === "FINISHED" ? "bg-gold-900" : "bg-gray-200",
+                  timer.status === "FINISHED"
+                    ? "bg-gold-900 bg-opacity-80"
+                    : "bg-gray-200",
                 ].join(" ")}
               />
             )}

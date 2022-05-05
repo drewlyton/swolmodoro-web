@@ -10,26 +10,11 @@ type useTimerObject = {
   paused: boolean;
 };
 
-type timerState = {
-  paused: boolean;
-  timer: CountdownTimer;
-  timeWhenPaused: number;
-  countdownString: string;
-  percentComplete: number;
-};
-
-type timerAction = {
-  event: "tick" | "reset" | "play" | "pause";
-};
-
-const timerReducer = (state: timerState, action: timerAction) => {};
-
 export const useTimer = (
   initTime: number,
   onEnd?: () => void
 ): useTimerObject => {
   const [timer, setTimer] = useState(new CountdownTimer(initTime));
-  const [ended, toggleEnded] = useReducer((x) => !x, false);
   /* Control pause/play */
   const [paused, setPaused] = useState(false);
   const [timeWhenPaused, setTimeWhenPaused] = useState(0);
@@ -56,17 +41,14 @@ export const useTimer = (
       if (!paused) {
         setCountdownString(timer.countdownString());
         setPercentCompleted(timer.percentComplete());
+        if (timer.countdownString() === zeroString) {
+          if (onEnd) onEnd();
+        }
       }
     }, 1000);
 
     return () => clearInterval(tick);
   });
-
-  useEffect(() => {
-    if (countdownString === zeroString) {
-      toggleEnded();
-    }
-  }, [countdownString]);
 
   const play = useCallback(() => {
     setPaused(false);
@@ -86,14 +68,6 @@ export const useTimer = (
       pause();
     }
   }, [pause, play, paused, timeWhenPaused, timer]);
-
-  /* Control timer end */
-  useEffect(() => {
-    if (ended) {
-      pause();
-      if (onEnd) onEnd();
-    }
-  }, [ended, pause, onEnd]);
 
   return useMemo(() => {
     return {

@@ -19,15 +19,12 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
-  if (!params.sessionId || !params.timerId)
-    throw new Response("sessionId or timerId not found", { status: 404 });
+  if (!params.sessionId || !params.timerId) return redirect("/start");
 
   const session = await getSession({ id: params.sessionId });
   const timer = await getTimer({ id: params.timerId });
 
-  if (!timer || !session)
-    throw new Response("session or timer not found", { status: 404 });
-  console.log("Timer loader");
+  if (!timer || !session) return redirect("/start");
   return json<LoaderData>({ session: session, timer }, 200);
 };
 
@@ -44,7 +41,6 @@ export default function () {
   const submit = useSubmit();
   const [ding] = useSound(dingSound);
   const onEnd = useCallback(() => {
-    console.log("onEnd submit");
     submit(null, { method: "post" });
     ding();
   }, [submit, ding]);
@@ -70,8 +66,7 @@ export default function () {
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
-  if (!params.sessionId || !params.timerId)
-    throw new Response("sessionId or timerId not found", { status: 404 });
+  if (!params.sessionId || !params.timerId) return redirect("/start");
   // Set last timer as finished and get the other timers for this sessino
   const finishedTimer = await db.timer.update({
     where: {
@@ -89,8 +84,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     },
   });
 
-  if (!finishedTimer) throw new Response("Timer not found", { status: 404 });
+  if (!finishedTimer) return redirect("/start");
 
-  console.log("Redirect to start");
   return redirect(`/start/${params.sessionId}`);
 };

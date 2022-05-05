@@ -3,13 +3,12 @@ import type { LoaderFunction } from "remix";
 import { getSession } from "~/models/session.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  if (!params.sessionId) throw new Response("No sessionId", { status: 404 });
+  if (!params.sessionId) return redirect("/start");
   const session = await getSession({ id: params.sessionId });
-  if (!session) throw new Response("No Session found", { status: 404 });
+  if (!session) return redirect(`/start`);
   const nextTimer = session.timers.find((x) => x.status === "ACTIVE");
   if (!nextTimer) return redirect("/start");
   // Take user to next active timer
-  console.log("Redirect to", nextTimer);
   return redirect(`/start/${session.id}/${nextTimer.id}`);
 };
 
