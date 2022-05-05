@@ -1,12 +1,12 @@
 describe("Create Timer", () => {
   beforeEach(() => {
     cy.resetDB();
-    cy.login();
+    // cy.login();
   });
 
-  it("should create a session", () => {
-    cy.request("POST", `/start`, {}).then((resp) => {
-      expect(resp.headers["content-type"]).to.eq("image/png");
+  it("can access home page", () => {
+    cy.request("GET", `/start`, {}).then((resp) => {
+      expect(resp.status).to.eq(200);
     });
   });
 });
