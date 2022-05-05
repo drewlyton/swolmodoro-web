@@ -1,5 +1,6 @@
 import { NavLink, useLocation } from "remix";
 import favicon from "../../../public/favicon.png";
+import { version } from "@/package.json";
 
 type Props = {};
 
@@ -16,7 +17,7 @@ export const Navbar: React.FC<Props> = () => {
           <img src={favicon} width="30px" alt="Logo" />
         </div>
         <div className="flex-grow-0 font-nunito font-bold text-gray-600">
-          swolmodoro
+          <small className="text-gray-500">v{version}</small>
         </div>
         <div className="flex w-full flex-1 justify-end">
           {location.pathname !== "/start" && (
