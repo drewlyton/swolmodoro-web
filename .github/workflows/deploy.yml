@@ -66,6 +66,7 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        run: npm i -g dotenv-cli
 
       - name: 🐳 Docker compose
         # the sleep is just there to give time for postgres to get started
@@ -104,7 +105,7 @@ jobs:
           DATABASE_URL: "mysql://user:user@localhost:3306/test"
 
       - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
+        run: npx prisma db push
 
       - name: 🌱 Seed the Database
         run: npx prisma db seed
