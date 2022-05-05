@@ -10,6 +10,7 @@ import {
   useCatch,
 } from "remix";
 import { getUser, isProtectedRoute, requireUser } from "./auth.server";
+import { LinkButton } from "./components/LinkButton";
 import mainStylesheet from "./styles/base.css";
 import fontStylesheet from "./styles/fonts.css";
 import tailwindStylesheet from "./styles/tailwind.css";
@@ -33,10 +34,9 @@ type LoaderData = {
 };
 
 export const loader: LoaderFunction = async ({ request }) => {
-  if (isProtectedRoute(request)) await requireUser(request);
-  return json<LoaderData>({
-    user: await getUser(request),
-  });
+  // if (isProtectedRoute(request)) await requireUser(request);
+
+  return json({});
 };
 
 export default function App() {
@@ -59,18 +59,24 @@ export default function App() {
 export function CatchBoundary() {
   const caught = useCatch();
   return (
-    <html>
+    <html lang="en" className="h-full bg-sand">
       <head>
-        <title>Oops!</title>
         <Meta />
         <Links />
       </head>
-      <body>
-        <h1>Uh oh!</h1>
-        <h2>
-          {caught.status} {caught.statusText}
-        </h2>
+      <body className="h-full space-y-8">
+        <section className=" py-8 text-center">
+          <h1 className="font-nunito text-6xl font-bold">Uh oh!</h1>
+          <h3 className="text-xl text-gray-700">
+            Looks like that page doesn't exist.
+          </h3>
+        </section>
+        <section className="text-center">
+          <LinkButton href="/start">Go To Start</LinkButton>
+        </section>
+        <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );

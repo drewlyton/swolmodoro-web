@@ -4,9 +4,9 @@ import { getUserId } from "~/auth.server";
 import { useOptionalUser } from "~/helpers/helpers";
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/start");
-  return json({});
+  // const userId = await getUserId(request);
+  return redirect("/start");
+  // return json({});
 };
 
 export default function Index() {
