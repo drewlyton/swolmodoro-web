@@ -7,9 +7,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useCatch,
 } from "remix";
-import { getUser, isProtectedRoute, requireUser } from "./auth.server";
+import type { getUser } from "./auth.server";
 import { LinkButton } from "./components/LinkButton";
 import mainStylesheet from "./styles/base.css";
 import fontStylesheet from "./styles/fonts.css";
@@ -57,7 +56,6 @@ export default function App() {
 }
 
 export function CatchBoundary() {
-  const caught = useCatch();
   return (
     <html lang="en" className="h-full bg-sand">
       <head>
