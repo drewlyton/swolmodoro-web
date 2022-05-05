@@ -9,7 +9,7 @@ node_modules
 /prisma/data.db
 /prisma/data.db-journal
 
-/postgres-data
+/local-data
 
 /app/styles/tailwind.css
 
