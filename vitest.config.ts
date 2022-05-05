@@ -11,6 +11,11 @@ export default defineConfig({
     globals: true,
     environment: "happy-dom",
     setupFiles: ["./test/setup-test-env.ts"],
-    exclude: ["./cypress", "./test/e2e", "./node_modules"],
+    exclude: ["./cypress", "./test/e2e", "./node_modules", "./local-data"],
+    watchIgnore: [
+      ".*\\/node_modules\\/.*",
+      ".*\\/build\\/.*",
+      ".*\\/local-data\\/.*",
+    ],
   },
 });
