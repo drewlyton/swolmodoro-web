@@ -27,7 +27,7 @@ describe("$timerId", () => {
         where: { id: timer1.id },
       });
       expect(updatedTimer1?.status).toBe("FINISHED");
-      expect(response.status).toBe(302);
+      expect(response).toRedirectTo(`/start/${session.id}`);
     });
   });
 

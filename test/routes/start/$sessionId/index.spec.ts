@@ -10,7 +10,10 @@ describe("$sessionId", () => {
   describe("index loader", () => {
     it("redirects to next active timer", async () => {
       const session = await db.session.create({ data: { name: "hello" } });
-      const timer = await db.timer.create({
+      await db.timer.create({
+        data: { sessionId: session.id, length: 10, status: "FINISHED" },
+      });
+      const timer2 = await db.timer.create({
         data: { sessionId: session.id, length: 10 },
       });
       const response: Response = await indexLoader({
@@ -18,7 +21,7 @@ describe("$sessionId", () => {
         params: { sessionId: session.id },
         context: {},
       });
-      expect(response).toRedirectTo(`/start/${session.id}/${timer.id}`);
+      expect(response).toRedirectTo(`/start/${session.id}/${timer2.id}`);
     });
 
     it("redirects to start if no next active timer", async () => {
@@ -29,12 +32,6 @@ describe("$sessionId", () => {
         context: {},
       });
       expect(response).toRedirectTo("/start");
-    });
-  });
-
-  describe("$timerId action", () => {
-    test.skip("go to next timer", async () => {
-      expect(true).toBeTruthy();
     });
   });
 });

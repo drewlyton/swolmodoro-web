@@ -28,7 +28,13 @@ export const Select: React.FC<SelectProps> = ({
   });
   return (
     <>
-      <input type="hidden" value={selected.value} hidden name={name} />
+      <input
+        type="hidden"
+        value={selected.value}
+        hidden
+        name={name}
+        data-testid="select"
+      />
       <Listbox value={selected} onChange={setSelected}>
         <div className="relative">
           <Listbox.Button

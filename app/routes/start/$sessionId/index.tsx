@@ -9,7 +9,8 @@ export const loader: LoaderFunction = async ({ params }) => {
   const nextTimer = session.timers.find((x) => x.status === "ACTIVE");
   if (!nextTimer) return redirect("/start");
   // Take user to next active timer
-  return redirect(`/start/${session.id}/${nextTimer?.id}`);
+  console.log("Redirect to", nextTimer);
+  return redirect(`/start/${session.id}/${nextTimer.id}`);
 };
 
 export default function () {

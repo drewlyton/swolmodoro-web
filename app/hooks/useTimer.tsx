@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 import { CountdownTimer, zeroString } from "~/helpers/timer";
 
 type useTimerObject = {
@@ -10,11 +10,30 @@ type useTimerObject = {
   paused: boolean;
 };
 
+type timerState = {
+  paused: boolean;
+  timer: CountdownTimer;
+  timeWhenPaused: number;
+  countdownString: string;
+  percentComplete: number;
+};
+
+type timerAction = {
+  event: "tick" | "reset" | "play" | "pause";
+};
+
+const timerReducer = (state: timerState, action: timerAction) => {};
+
 export const useTimer = (
   initTime: number,
   onEnd?: () => void
 ): useTimerObject => {
   const [timer, setTimer] = useState(new CountdownTimer(initTime));
+  const [ended, toggleEnded] = useReducer((x) => !x, false);
+  /* Control pause/play */
+  const [paused, setPaused] = useState(false);
+  const [timeWhenPaused, setTimeWhenPaused] = useState(0);
+
   // When initTime changes, reset the timer to first values.
   useEffect(() => {
     const newTimer = new CountdownTimer(initTime);
@@ -33,19 +52,21 @@ export const useTimer = (
 
   /* Decrement timer every second and trigger rerender */
   useEffect(() => {
-    const tick = setTimeout(() => {
+    const tick = setInterval(() => {
       if (!paused) {
         setCountdownString(timer.countdownString());
         setPercentCompleted(timer.percentComplete());
       }
     }, 1000);
 
-    return () => clearTimeout(tick);
+    return () => clearInterval(tick);
   });
 
-  /* Control pause/play */
-  const [paused, setPaused] = useState(false);
-  const [timeWhenPaused, setTimeWhenPaused] = useState(0);
+  useEffect(() => {
+    if (countdownString === zeroString) {
+      toggleEnded();
+    }
+  }, [countdownString]);
 
   const play = useCallback(() => {
     setPaused(false);
@@ -68,11 +89,11 @@ export const useTimer = (
 
   /* Control timer end */
   useEffect(() => {
-    if (countdownString == zeroString) {
+    if (ended) {
       pause();
       if (onEnd) onEnd();
     }
-  }, [pause, countdownString, onEnd]);
+  }, [ended, pause, onEnd]);
 
   return useMemo(() => {
     return {

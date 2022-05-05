@@ -1,17 +1,20 @@
 import dingSound from "@/public/whistle.mp3";
 import type { Session, Timer } from "@prisma/client";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import type { ActionFunction, LoaderFunction } from "remix";
 import { json, redirect, useLoaderData, useSubmit } from "remix";
 import { CountdownClock } from "~/components/CountdownClock";
 import { Logo } from "~/components/Logo";
+import { TimerTimeline } from "~/components/TimerTimeline";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
 import { getSession } from "~/models/session.server";
 import { getTimer } from "~/models/timer.server";
 
 type LoaderData = {
-  session: Session;
+  session: Session & {
+    timers: Timer[];
+  };
   timer: Timer;
 };
 
@@ -24,16 +27,24 @@ export const loader: LoaderFunction = async ({ params }) => {
 
   if (!timer || !session)
     throw new Response("session or timer not found", { status: 404 });
-
-  return json<LoaderData>({ session, timer }, 200);
+  console.log("Timer loader");
+  return json<LoaderData>({ session: session, timer }, 200);
 };
 
 export default function () {
   const data = useLoaderData<LoaderData>();
 
+  const exerciseTimers = useMemo(() => {
+    return data.session.timers.filter((timer) => timer.type === "EXERCISE");
+  }, [data.session.timers]);
+  const focusTimers = useMemo(() => {
+    return data.session.timers.filter((timer) => timer.type === "FOCUS");
+  }, [data.session.timers]);
+
   const submit = useSubmit();
   const [ding] = useSound(dingSound);
   const onEnd = useCallback(() => {
+    console.log("onEnd submit");
     submit(null, { method: "post" });
     ding();
   }, [submit, ding]);
@@ -50,6 +61,10 @@ export default function () {
         <Logo />
       </div>
       <CountdownClock length={data.timer.length} onEnd={onEnd} />
+      <div className="mt-6 flex w-full max-w-xs flex-col space-y-2">
+        <TimerTimeline timers={focusTimers} active={data.timer.id} />
+        <TimerTimeline timers={exerciseTimers} active={data.timer.id} />
+      </div>
     </>
   );
 }
@@ -76,5 +91,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   if (!finishedTimer) throw new Response("Timer not found", { status: 404 });
 
+  console.log("Redirect to start");
   return redirect(`/start/${params.sessionId}`);
 };

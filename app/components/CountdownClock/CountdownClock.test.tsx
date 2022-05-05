@@ -49,7 +49,7 @@ test("Runs onEnd if timer ends", async () => {
   await waitFor(() => {
     expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:00");
   });
-  expect(onEnd).toHaveBeenCalled();
+  expect(onEnd).toBeCalledTimes(1);
 });
 
 test("Should restart countdown with new length", async () => {
