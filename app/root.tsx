@@ -1,4 +1,4 @@
-import type { LinksFunction, LoaderFunction, MetaFunction } from "remix";
+import { LinksFunction, LoaderFunction, MetaFunction, redirect } from "remix";
 import {
   json,
   Links,
@@ -28,14 +28,27 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-type LoaderData = {
-  user: Awaited<ReturnType<typeof getUser>>;
-};
+export let loader: LoaderFunction = ({ request }) => {
+  // upgrade people to https automatically
 
-export const loader: LoaderFunction = async ({ request }) => {
-  // if (isProtectedRoute(request)) await requireUser(request);
+  let url = new URL(request.url);
+  let hostname = url.hostname;
+  let proto = request.headers.get("X-Forwarded-Proto") ?? url.protocol;
 
-  return json({});
+  url.host =
+    request.headers.get("X-Forwarded-Host") ??
+    request.headers.get("host") ??
+    url.host;
+  url.protocol = "https:";
+
+  if (proto === "http" && hostname !== "localhost") {
+    return redirect(url.toString(), {
+      headers: {
+        "X-Forwarded-Proto": "https",
+      },
+    });
+  }
+  return {};
 };
 
 export default function App() {
