@@ -1,6 +1,5 @@
-import { json, Link, redirect } from "remix";
 import type { LoaderFunction } from "remix";
-import { getUserId } from "~/auth.server";
+import { Link, redirect } from "remix";
 import { useOptionalUser } from "~/helpers/helpers";
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -12,7 +11,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function Index() {
   const user = useOptionalUser();
   return (
-    <main className="relative min-h-screen bg-white sm:flex sm:items-center sm:justify-center">
+    <main className="relative min-h-screen bg-white px-4 sm:flex sm:items-center sm:justify-center">
       <div className="relative sm:pb-16 sm:pt-8">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="relative shadow-xl sm:overflow-hidden sm:rounded-2xl">

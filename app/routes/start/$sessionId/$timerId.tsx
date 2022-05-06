@@ -65,7 +65,7 @@ export default function () {
         <Logo />
       </div>
       <CountdownClock length={data.timer.length} onEnd={onEnd} />
-      <div className="mt-6 flex w-full max-w-xs flex-col space-y-2">
+      <div className="mt-6 flex w-full max-w-xs flex-col space-y-2 pb-4">
         <TimerTimeline timers={focusTimers} active={data.timer.id} />
         <TimerTimeline timers={exerciseTimers} active={data.timer.id} />
       </div>
