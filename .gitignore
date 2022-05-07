@@ -16,3 +16,6 @@ node_modules
 .DS_Store
 
 /coverage
+# Supabase
+**/supabase/.branches
+**/supabase/.temp

@@ -1,15 +1,13 @@
-import faker from "@faker-js/faker";
 import type { Prisma } from "@prisma/client";
 import { db } from "~/db.server";
 
-export const SessionFactory = {
-  build: (attrs: Partial<Prisma.SessionCreateInput> = {}) => {
+export const PomodoroFactory = {
+  build: (attrs: Partial<Prisma.PomodoroCreateInput> = {}) => {
     return {
-      name: faker.commerce.product(),
       ...attrs,
-    } as Prisma.SessionCreateInput;
+    } as Prisma.PomodoroCreateInput;
   },
-  create: async function (attrs: Partial<Prisma.SessionCreateInput> = {}) {
-    return await db.session.create({ data: SessionFactory.build(attrs) });
+  create: async function (attrs: Partial<Prisma.PomodoroCreateInput> = {}) {
+    return await db.pomodoro.create({ data: PomodoroFactory.build(attrs) });
   },
 };

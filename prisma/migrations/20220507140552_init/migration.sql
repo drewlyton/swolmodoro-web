@@ -21,14 +21,13 @@ CREATE TABLE "Password" (
 );
 
 -- CreateTable
-CREATE TABLE "Session" (
+CREATE TABLE "Pomodoro" (
     "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "userId" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT,
 
-    CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Pomodoro_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -39,7 +38,7 @@ CREATE TABLE "Timer" (
     "length" INTEGER NOT NULL DEFAULT 1500,
     "type" "TimerType" NOT NULL DEFAULT E'FOCUS',
     "status" "TimerStatus" NOT NULL DEFAULT E'ACTIVE',
-    "sessionId" TEXT NOT NULL,
+    "pomodoroId" TEXT NOT NULL,
 
     CONSTRAINT "Timer_pkey" PRIMARY KEY ("id")
 );
@@ -49,3 +48,12 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Password_userId_key" ON "Password"("userId");
+
+-- AddForeignKey
+ALTER TABLE "Password" ADD CONSTRAINT "Password_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Pomodoro" ADD CONSTRAINT "Pomodoro_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Timer" ADD CONSTRAINT "Timer_pomodoroId_fkey" FOREIGN KEY ("pomodoroId") REFERENCES "Pomodoro"("id") ON DELETE CASCADE ON UPDATE CASCADE;

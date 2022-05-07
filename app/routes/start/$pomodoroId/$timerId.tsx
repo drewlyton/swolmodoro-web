@@ -1,5 +1,5 @@
 import dingSound from "@/public/whistle.mp3";
-import type { Session, Timer } from "@prisma/client";
+import type { Pomodoro, Timer } from "@prisma/client";
 import { useCallback, useMemo } from "react";
 import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
 import { json, redirect, useLoaderData, useSubmit } from "remix";
@@ -8,24 +8,24 @@ import { Logo } from "~/components/Logo";
 import { TimerTimeline } from "~/components/TimerTimeline";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
-import { getSession } from "~/models/session.server";
+import { getPomodoro } from "~/models/pomodoro.server";
 import { getTimer } from "~/models/timer.server";
 
 type LoaderData = {
-  session: Session & {
+  pomodoro: Pomodoro & {
     timers: Timer[];
   };
   timer: Timer;
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
-  if (!params.sessionId || !params.timerId) return redirect("/start");
+  if (!params.pomodoroId || !params.timerId) return redirect("/start");
 
-  const session = await getSession({ id: params.sessionId });
+  const pomodoro = await getPomodoro({ id: params.pomodoroId });
   const timer = await getTimer({ id: params.timerId });
 
-  if (!timer || !session) return redirect("/start");
-  return json<LoaderData>({ session: session, timer }, 200);
+  if (!timer || !pomodoro) return redirect("/start");
+  return json<LoaderData>({ pomodoro: pomodoro, timer }, 200);
 };
 
 export const meta: MetaFunction = ({ data }) => {
@@ -40,11 +40,11 @@ export default function () {
   const data = useLoaderData<LoaderData>();
 
   const exerciseTimers = useMemo(() => {
-    return data.session.timers.filter((timer) => timer.type === "EXERCISE");
-  }, [data.session.timers]);
+    return data.pomodoro.timers.filter((timer) => timer.type === "EXERCISE");
+  }, [data.pomodoro.timers]);
   const focusTimers = useMemo(() => {
-    return data.session.timers.filter((timer) => timer.type === "FOCUS");
-  }, [data.session.timers]);
+    return data.pomodoro.timers.filter((timer) => timer.type === "FOCUS");
+  }, [data.pomodoro.timers]);
 
   const submit = useSubmit();
   const [ding] = useSound(dingSound);
@@ -74,7 +74,7 @@ export default function () {
 }
 
 export const action: ActionFunction = async ({ request, params }) => {
-  if (!params.sessionId || !params.timerId) return redirect("/start");
+  if (!params.pomodoroId || !params.timerId) return redirect("/start");
   // Set last timer as finished and get the other timers for this sessino
   const finishedTimer = await db.timer.update({
     where: {
@@ -84,7 +84,7 @@ export const action: ActionFunction = async ({ request, params }) => {
       status: "FINISHED",
     },
     include: {
-      session: {
+      pomodoro: {
         include: {
           timers: true,
         },
@@ -94,5 +94,5 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   if (!finishedTimer) return redirect("/start");
 
-  return redirect(`/start/${params.sessionId}`);
+  return redirect(`/start/${params.pomodoroId}`);
 };

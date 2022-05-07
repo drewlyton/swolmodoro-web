@@ -1,12 +1,10 @@
 datasource db {
-  provider             = "postgresql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  provider = "prisma-client-js"
 }
 
 model User {
@@ -16,8 +14,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  password Password?
-  sessions Session[]
+  password  Password?
+  pomodoros Pomodoro[]
 }
 
 model Password {
@@ -27,15 +25,14 @@ model Password {
   userId String @unique
 }
 
-model Session {
-  id   String @id @default(cuid())
-  name String
-
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String?
+model Pomodoro {
+  id String @id @default(cuid())
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String?
 
   timers Timer[]
 }
@@ -50,8 +47,8 @@ model Timer {
   type   TimerType   @default(FOCUS)
   status TimerStatus @default(ACTIVE)
 
-  session   Session @relation(fields: [sessionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  sessionId String
+  pomodoro   Pomodoro @relation(fields: [pomodoroId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pomodoroId String
 }
 
 enum TimerType {
