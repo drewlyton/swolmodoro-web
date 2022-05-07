@@ -1,6 +1,6 @@
 import { redirect, useCatch } from "remix";
 import type { LoaderFunction } from "remix";
-import { getSession } from "~/models/session.server";
+import { getSession } from "~/models/pomodoro.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
   if (!params.sessionId) return redirect("/start");

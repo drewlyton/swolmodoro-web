@@ -1,6 +1,6 @@
 import { Form, json, redirect, useLoaderData } from "remix";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { createSession } from "~/models/session.server";
+import { createSession } from "~/models/pomodoro.server";
 import { getUserId } from "~/auth.server";
 import { createTimer } from "~/models/timer.server";
 import { getFromFormData } from "~/helpers/form";

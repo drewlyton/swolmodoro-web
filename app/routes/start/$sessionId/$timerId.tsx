@@ -8,7 +8,7 @@ import { Logo } from "~/components/Logo";
 import { TimerTimeline } from "~/components/TimerTimeline";
 import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
-import { getSession } from "~/models/session.server";
+import { getSession } from "~/models/pomodoro.server";
 import { getTimer } from "~/models/timer.server";
 
 type LoaderData = {
