@@ -9,10 +9,13 @@ node_modules
 /prisma/data.db
 /prisma/data.db-journal
 
-/local-data
+/postgres-data
 
 /app/styles/tailwind.css
 
 .DS_Store
 
 /coverage
+# Supabase
+**/supabase/.branches
+**/supabase/.temp
