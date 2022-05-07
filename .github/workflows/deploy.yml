@@ -74,7 +74,7 @@ jobs:
         # the sleep is just there to give time for postgres to get started
         run: docker-compose up -d && sleep 10
         env:
-          DATABASE_URL: "mysql://user:user@localhost:3306/test"
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test"
 
       - name: ⚡ Run unit tests
         run: npm run test
@@ -104,7 +104,7 @@ jobs:
         # the sleep is just there to give time for postgres to get started
         run: docker-compose up -d && sleep 10
         env:
-          DATABASE_URL: "mysql://user:user@localhost:3306/test"
+          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test"
 
       - name: 🛠 Setup Database
         run: npx prisma db push
