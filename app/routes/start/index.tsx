@@ -1,11 +1,10 @@
-import { Form, json, redirect, useLoaderData } from "remix";
 import type { ActionFunction, LoaderFunction } from "remix";
-import { createSession } from "~/models/pomodoro.server";
-import { getUserId } from "~/auth.server";
-import { createTimer } from "~/models/timer.server";
-import { getFromFormData } from "~/helpers/form";
+import { Form, json, redirect, useLoaderData } from "remix";
 import { Button } from "~/components/Button";
 import { Select } from "~/components/Select";
+import { getFromFormData } from "~/helpers/form";
+import { createPomodoro } from "~/models/pomodoro.server";
+import { createTimer } from "~/models/timer.server";
 
 type LoaderData = {
   exerciseTypes: string[];
@@ -104,22 +103,21 @@ export const action: ActionFunction = async ({ request }) => {
     getFromFormData(formData, inputNames.secondExerciseType, "chest"),
   ];
 
-  const newSession = await createSession({
-    name: "hello", // TODO: Get rid of name from Session
-    userId: await getUserId(request),
+  const newPomodoro = await createPomodoro({
+    // userId: await getUserId(request),
   });
 
   const timers = [];
   for (let i = 0; i < focusAmount * 2 - 1; i++) {
     const newTimer = await createTimer({
       length: i % 2 == 0 ? focusLength : breakLength,
-      sessionId: newSession.id,
+      pomodoroId: newPomodoro.id,
       type: i % 2 == 0 ? "FOCUS" : "EXERCISE",
     });
     timers.push(newTimer.id);
   }
 
-  return redirect(`/start/${newSession.id}/${timers[0]}`);
+  return redirect(`/start/${newPomodoro.id}/${timers[0]}`);
 };
 
 export const inputNames = {

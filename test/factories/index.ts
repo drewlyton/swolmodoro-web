@@ -1,9 +1,9 @@
-import { SessionFactory } from "./session";
+import { PomodoroFactory } from "./session";
 import { TimerFactory } from "./timer";
 import { UserFactory } from "./user";
 
 export const Factories: Record<string, any> = {
-  Session: SessionFactory,
+  Session: PomodoroFactory,
   Timer: TimerFactory,
   User: UserFactory,
 };

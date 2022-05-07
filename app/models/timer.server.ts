@@ -1,4 +1,4 @@
-import type { Session, Timer } from "@prisma/client";
+import type { Pomodoro, Timer } from "@prisma/client";
 
 import { db } from "~/db.server";
 
@@ -6,14 +6,14 @@ export type { Timer } from "@prisma/client";
 
 export function getTimer({
   id,
-  sessionId,
+  pomodoroId,
 }: Pick<Timer, "id"> & {
-  sessionId?: Session["id"];
+  pomodoroId?: Pomodoro["id"];
 }) {
   return db.timer.findFirst({
-    where: { id, sessionId },
+    where: { id, pomodoroId },
     include: {
-      session: {
+      pomodoro: {
         include: {
           timers: true,
         },
@@ -22,27 +22,31 @@ export function getTimer({
   });
 }
 
-export function getTimerListItems({ sessionId }: { sessionId: Session["id"] }) {
+export function getTimerListItems({
+  pomodoroId,
+}: {
+  pomodoroId: Pomodoro["id"];
+}) {
   return db.timer.findMany({
-    where: { sessionId },
+    where: { pomodoroId },
     select: { id: true },
   });
 }
 
 export function createTimer({
   length,
-  sessionId,
+  pomodoroId,
   type,
 }: Pick<Timer, "length" | "type"> & {
-  sessionId?: Session["id"];
+  pomodoroId?: Pomodoro["id"];
 }) {
   return db.timer.create({
     data: {
       length,
       type,
-      session: {
+      pomodoro: {
         connect: {
-          id: sessionId,
+          id: pomodoroId,
         },
       },
     },
@@ -51,9 +55,9 @@ export function createTimer({
 
 export function deleteTimer({
   id,
-  sessionId,
-}: Pick<Timer, "id"> & { sessionId: Session["id"] }) {
+  pomodoroId,
+}: Pick<Timer, "id"> & { pomodoroId: Pomodoro["id"] }) {
   return db.timer.deleteMany({
-    where: { id, sessionId },
+    where: { id, pomodoroId },
   });
 }

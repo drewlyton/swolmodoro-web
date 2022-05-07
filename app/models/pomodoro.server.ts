@@ -1,16 +1,16 @@
-import type { User, Session } from "@prisma/client";
+import type { User, Pomodoro } from "@prisma/client";
 
 import { db } from "~/db.server";
 
-export type { Session } from "@prisma/client";
+export type { Pomodoro } from "@prisma/client";
 
-export function getSession({
+export function getPomodoro({
   id,
   userId,
-}: Pick<Session, "id"> & {
+}: Pick<Pomodoro, "id"> & {
   userId?: User["id"];
 }) {
-  return db.session.findFirst({
+  return db.pomodoro.findFirst({
     where: { id, userId },
     include: {
       timers: {
@@ -22,19 +22,14 @@ export function getSession({
   });
 }
 
-export function getSessionListItems({ userId }: { userId: User["id"] }) {
-  return db.session.findMany({
+export function getPomodoroListItems({ userId }: { userId: User["id"] }) {
+  return db.pomodoro.findMany({
     where: { userId },
-    select: { id: true, name: true },
+    select: { id: true },
   });
 }
 
-export function createSession({
-  name,
-  userId,
-}: Pick<Session, "name"> & {
-  userId?: User["id"];
-}) {
+export function createPomodoro({ userId }: { userId?: User["id"] }) {
   const attachUserId = userId
     ? {
         user: {
@@ -44,19 +39,18 @@ export function createSession({
         },
       }
     : {};
-  return db.session.create({
+  return db.pomodoro.create({
     data: {
-      name,
       ...attachUserId,
     },
   });
 }
 
-export function deleteSession({
+export function deletePomodoro({
   id,
   userId,
-}: Pick<Session, "id"> & { userId: User["id"] }) {
-  return db.session.deleteMany({
+}: Pick<Pomodoro, "id"> & { userId: User["id"] }) {
+  return db.pomodoro.deleteMany({
     where: { id, userId },
   });
 }

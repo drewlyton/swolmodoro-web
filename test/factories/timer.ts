@@ -1,12 +1,12 @@
 import type { Prisma } from "@prisma/client";
 import { db } from "~/db.server";
-import { SessionFactory } from "./session";
+import { PomodoroFactory } from "./session";
 
 export const TimerFactory = {
   build: (attrs: Partial<Prisma.TimerCreateInput> = {}) => {
     return {
-      session: {
-        create: SessionFactory.build(),
+      pomodoro: {
+        create: PomodoroFactory.build(),
       },
       ...attrs,
     } as Prisma.TimerCreateInput;

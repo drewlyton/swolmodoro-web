@@ -1,15 +1,15 @@
 import { redirect, useCatch } from "remix";
 import type { LoaderFunction } from "remix";
-import { getSession } from "~/models/pomodoro.server";
+import { getPomodoro } from "~/models/pomodoro.server";
 
 export const loader: LoaderFunction = async ({ params }) => {
-  if (!params.sessionId) return redirect("/start");
-  const session = await getSession({ id: params.sessionId });
-  if (!session) return redirect(`/start`);
-  const nextTimer = session.timers.find((x) => x.status === "ACTIVE");
+  if (!params.pomodoroId) return redirect("/start");
+  const pomodoro = await getPomodoro({ id: params.pomodoroId });
+  if (!pomodoro) return redirect(`/start`);
+  const nextTimer = pomodoro.timers.find((x) => x.status === "ACTIVE");
   if (!nextTimer) return redirect("/start");
   // Take user to next active timer
-  return redirect(`/start/${session.id}/${nextTimer.id}`);
+  return redirect(`/start/${pomodoro.id}/${nextTimer.id}`);
 };
 
 export default function () {
