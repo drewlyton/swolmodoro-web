@@ -1,5 +1,6 @@
-import type { ActionFunction, LoaderFunction } from "remix";
-import { Form, json, redirect, useLoaderData } from "remix";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { Form, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Select } from "~/components/Select";
 import { getFromFormData } from "~/helpers/form";

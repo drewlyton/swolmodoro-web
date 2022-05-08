@@ -1,6 +1,6 @@
 import { Navbar } from "~/components/Navbar";
-import type { LoaderFunction } from "remix";
-import { Outlet } from "remix";
+import type { LoaderFunction } from "@remix-run/node";
+import { Outlet } from "@remix-run/react";
 
 export const loader: LoaderFunction = async ({ request }) => {
   return {};
