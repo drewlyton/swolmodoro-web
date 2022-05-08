@@ -8,7 +8,7 @@
   "scripts": {
     "build": "run-s build:*",
     "build:css": "npm run generate:css -- --minify",
-    "build:remix": "remix build",
+    "build:remix": "cross-env NODE_ENV=production remix build",
     "db:migrate": "run-p db:migrate:*",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:migrate:test": "dotenv -e .env.test -- npx prisma db push --accept-data-loss",
@@ -21,13 +21,12 @@
     "db:studio": "npx prisma studio -p 7777 --browser none",
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
-    "dev:remix": "cross-env NODE_ENV=development PORT=3000 binode --require ./mocks -- @remix-run/dev:remix dev",
+    "dev:remix": "cross-env NODE_ENV=development netlify dev",
     "format": "prettier --write .",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "npm run postinstall",
-    "start": "remix-serve build",
-    "start:mocks": "node --require ./mocks ./node_modules/.bin/remix-serve build",
+    "start": "cross-env NODE_ENV=production netlify dev -p 8811",
     "test": "run-s db:migrate:test test:unit:ci test:integration:ci",
     "test:integration": "dotenv -e .env.test -- vitest --no-threads --dir ./test/routes",
     "test:integration:ci": "npm run test:integration -- --run",
@@ -35,7 +34,7 @@
     "test:unit:ci": "npm run test:unit -- --run",
     "test:e2e:dev": "start-server-and-test dev http://localhost:3000 'cypress open'",
     "pretest:e2e:run": "npm run build",
-    "test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 'cypress run'",
+    "test:e2e:run": "cross-env start-server-and-test http://localhost:8811 'cypress run'",
     "typecheck": "tsc -b && tsc -b cypress && tsc -b test/e2e",
     "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
     "storybook": "start-storybook -p 6006 --quiet --no-open",
@@ -43,9 +42,11 @@
   },
   "prettier": {},
   "eslintIgnore": [
+    "/netlify/functions/server",
     "/node_modules",
-    "/build",
-    "/public/build"
+    "/public/build",
+    "/server/build",
+    "/build"
   ],
   "dependencies": {
     "@headlessui/react": "^1.6.1",
