@@ -99,6 +99,7 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+        run: npm i -g netlify-cli
 
       - name: 🐳 Docker compose
         # the sleep is just there to give time for postgres to get started
@@ -118,7 +119,7 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v3
         with:
-          start: npm run start:mocks
+          start: npm run start
           wait-on: "http://localhost:8811"
         env:
           PORT: "8811"
