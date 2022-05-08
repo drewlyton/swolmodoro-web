@@ -10,7 +10,7 @@ export default function () {
   return (
     <>
       <Navbar />
-      <main className="container my-0 mx-auto flex max-w-md flex-col items-center justify-center pt-8">
+      <main className="container my-0 mx-auto flex max-w-md flex-col items-center justify-center px-4 pt-8">
         <Outlet />
       </main>
     </>
