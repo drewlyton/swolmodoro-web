@@ -1,5 +1,6 @@
-import type { LoaderFunction } from "remix";
-import { Link, redirect } from "remix";
+import type { LoaderFunction } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
+import { Link } from "@remix-run/react";
 import { useOptionalUser } from "~/helpers/helpers";
 
 export const loader: LoaderFunction = async ({ request }) => {

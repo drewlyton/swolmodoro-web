@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from "remix";
+import { NavLink, useLocation } from "@remix-run/react";
 import favicon from "../../../public/favicon.png";
 import { version } from "@/package.json";
 

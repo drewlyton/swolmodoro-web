@@ -1,13 +1,5 @@
-import { LinksFunction, LoaderFunction, MetaFunction, redirect } from "remix";
-import {
-  json,
-  Links,
-  LiveReload,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "remix";
+import { json, LinksFunction, LoaderFunction, MetaFunction, redirect } from "@remix-run/node";
+import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "@remix-run/react";
 import type { getUser } from "./auth.server";
 import { LinkButton } from "./components/LinkButton";
 import mainStylesheet from "./styles/base.css";
