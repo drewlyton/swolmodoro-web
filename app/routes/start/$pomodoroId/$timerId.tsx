@@ -1,8 +1,9 @@
 import dingSound from "@/public/whistle.mp3";
 import type { Pomodoro, Timer } from "@prisma/client";
 import { useCallback, useMemo } from "react";
-import type { ActionFunction, LoaderFunction, MetaFunction } from "remix";
-import { json, redirect, useLoaderData, useSubmit } from "remix";
+import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData, useSubmit } from "@remix-run/react";
 import { CountdownClock } from "~/components/CountdownClock";
 import { Logo } from "~/components/Logo";
 import { TimerTimeline } from "~/components/TimerTimeline";
