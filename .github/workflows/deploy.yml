@@ -99,6 +99,8 @@ jobs:
 
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
+
+      - name: ❖ Netlify install
         run: npm i -g netlify-cli
 
       - name: 🐳 Docker compose
