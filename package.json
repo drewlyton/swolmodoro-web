@@ -25,6 +25,7 @@
     "dev:content": "contentlayer dev",
     "dev:remix": "cross-env NODE_ENV=development netlify dev",
     "format": "prettier --write .",
+    "generate:content": "contentlayer build",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "npm run postinstall",
