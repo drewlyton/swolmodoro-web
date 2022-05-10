@@ -8,8 +8,8 @@
   "scripts": {
     "build": "run-s build:*",
     "build:css": "npm run generate:css -- --minify",
+    "build:content": "contentlayer build",
     "build:remix": "cross-env NODE_ENV=production remix build",
-    "content": "contentlayer",
     "db:migrate": "run-p db:migrate:*",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:migrate:test": "dotenv -e .env.test -- npx prisma db push --accept-data-loss",
@@ -22,6 +22,7 @@
     "db:studio": "npx prisma studio -p 7777 --browser none",
     "dev": "run-p dev:*",
     "dev:css": "npm run generate:css -- --watch",
+    "dev:content": "contentlayer dev",
     "dev:remix": "cross-env NODE_ENV=development netlify dev",
     "format": "prettier --write .",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
