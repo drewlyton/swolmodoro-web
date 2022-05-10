@@ -9,6 +9,7 @@
     "build": "run-s build:*",
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "cross-env NODE_ENV=production remix build",
+    "content": "contentlayer",
     "db:migrate": "run-p db:migrate:*",
     "db:migrate:dev": "npx prisma migrate dev",
     "db:migrate:test": "dotenv -e .env.test -- npx prisma db push --accept-data-loss",
@@ -60,6 +61,7 @@
     "@remix-run/react": "^1.4.3",
     "@remix-run/serve": "^1.4.3",
     "@supabase/supabase-js": "^1.35.2",
+    "contentlayer": "^0.2.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "tiny-invariant": "^1.2.0"

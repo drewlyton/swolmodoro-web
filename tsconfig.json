@@ -1,6 +1,12 @@
 {
   "exclude": ["./cypress", "./test/e2e"],
-  "include": ["remix.env.d.ts", "**/*.ts", "**/*.tsx", "server.js"],
+  "include": [
+    "remix.env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "server.js",
+    ".contentlayer/generated"
+  ],
   "compilerOptions": {
     "lib": ["DOM", "DOM.Iterable", "ES2019"],
     "types": ["vitest/globals"],
@@ -15,7 +21,8 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./app/*"],
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "contentlayer/generated": ["./.contentlayer/generated"]
     },
     "skipLibCheck": true,
     "noEmit": true,
