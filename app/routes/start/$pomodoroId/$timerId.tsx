@@ -33,12 +33,15 @@ export const loader: LoaderFunction = async ({ params }) => {
   const timer = await getTimer({ id: params.timerId });
 
   if (!timer || !pomodoro) return redirect("/start");
+  const exercise = await getRandomExerciseByGroup(timer.exerciseGroup);
+
+  if (!exercise) return redirect("/start");
 
   return json<LoaderData>(
     {
       pomodoro,
       timer,
-      exercise: await getRandomExerciseByGroup(timer.exerciseGroup),
+      exercise,
     },
     200
   );
