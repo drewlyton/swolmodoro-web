@@ -49,6 +49,8 @@ model Timer {
 
   pomodoro   Pomodoro @relation(fields: [pomodoroId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   pomodoroId String
+
+  exerciseGroup EXERCISE_GROUPS @default(legs)
 }
 
 enum TimerType {
@@ -61,4 +63,10 @@ enum TimerStatus {
   OPEN
   STOPPED
   FINISHED
+}
+
+enum EXERCISE_GROUPS {
+  chest
+  back
+  legs
 }

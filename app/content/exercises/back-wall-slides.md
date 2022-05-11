@@ -1,7 +1,6 @@
 ---
 name: Back Wall Slides
 groups:
-  - name: legs
   - name: back
 ---
 

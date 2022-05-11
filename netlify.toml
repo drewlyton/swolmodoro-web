@@ -2,6 +2,7 @@
   command = "remix watch"
   port = 3000
   autoLaunch = false
+  framework = "remix"
 
 [[headers]]
   for = "/build/*"

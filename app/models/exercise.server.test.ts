@@ -1,8 +1,7 @@
-import { exercises } from "content";
 import { getRandomExerciseByGroup } from "./exercise.server";
 
-test("getRandomExerciseByGroup returns filtered exercises", () => {
-  expect(getRandomExerciseByGroup("chest").length).toBeLessThan(
-    exercises.length
+test("getRandomExerciseByGroup returns exercise of correct type", async () => {
+  expect((await getRandomExerciseByGroup("chest")).groupsArray).toContain(
+    "chest"
   );
 });
