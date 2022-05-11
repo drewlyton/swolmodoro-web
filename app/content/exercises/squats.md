@@ -2,6 +2,8 @@
 name: Squats
 groups:
   - name: legs
+  - name: calves
+  - name: glutes
 ---
 
 1. Stand with your feet shoulder-width apart, resting your arms straight down at your sides.
