@@ -22,7 +22,9 @@
     "paths": {
       "~/*": ["./app/*"],
       "@/*": ["./*"],
-      "contentlayer/generated": ["./.contentlayer/generated"]
+      "contentlayer/*": ["./.contentlayer/generated/*"],
+      "contentlayer": ["./.contentlayer/generated"],
+      "content": ["./app/content"]
     },
     "skipLibCheck": true,
     "noEmit": true,

@@ -1,7 +1,11 @@
 import dingSound from "@/public/whistle.mp3";
 import type { Pomodoro, Timer } from "@prisma/client";
 import { useCallback, useMemo } from "react";
-import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { CountdownClock } from "~/components/CountdownClock";
@@ -26,7 +30,8 @@ export const loader: LoaderFunction = async ({ params }) => {
   const timer = await getTimer({ id: params.timerId });
 
   if (!timer || !pomodoro) return redirect("/start");
-  return json<LoaderData>({ pomodoro: pomodoro, timer }, 200);
+
+  return json<LoaderData>({ pomodoro, timer }, 200);
 };
 
 export const meta: MetaFunction = ({ data }) => {
