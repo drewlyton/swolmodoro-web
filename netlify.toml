@@ -2,6 +2,7 @@
   command = "remix watch"
   port = 3000
   autoLaunch = false
+  framework = "remix"
 
 [[headers]]
   for = "/build/*"
@@ -14,6 +15,6 @@
   status = 200
 
 [build]
-  command = "npm run build"
+  command = "npm run db:deploy && npm run build"
   functions = "netlify/functions"
   publish = "public"

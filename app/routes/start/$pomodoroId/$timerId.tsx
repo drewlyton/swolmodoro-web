@@ -1,7 +1,11 @@
 import dingSound from "@/public/whistle.mp3";
 import type { Pomodoro, Timer } from "@prisma/client";
 import { useCallback, useMemo } from "react";
-import type { ActionFunction, LoaderFunction, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LoaderFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { CountdownClock } from "~/components/CountdownClock";
@@ -11,12 +15,15 @@ import { db } from "~/db.server";
 import { useSound } from "~/hooks/useSound";
 import { getPomodoro } from "~/models/pomodoro.server";
 import { getTimer } from "~/models/timer.server";
+import type { Exercise } from "contentlayer";
+import { getRandomExerciseByGroup } from "~/models/exercise.server";
 
 type LoaderData = {
   pomodoro: Pomodoro & {
     timers: Timer[];
   };
   timer: Timer;
+  exercise: Exercise;
 };
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -26,7 +33,15 @@ export const loader: LoaderFunction = async ({ params }) => {
   const timer = await getTimer({ id: params.timerId });
 
   if (!timer || !pomodoro) return redirect("/start");
-  return json<LoaderData>({ pomodoro: pomodoro, timer }, 200);
+
+  return json<LoaderData>(
+    {
+      pomodoro,
+      timer,
+      exercise: await getRandomExerciseByGroup(timer.exerciseGroup),
+    },
+    200
+  );
 };
 
 export const meta: MetaFunction = ({ data }) => {
@@ -43,6 +58,7 @@ export default function () {
   const exerciseTimers = useMemo(() => {
     return data.pomodoro.timers.filter((timer) => timer.type === "EXERCISE");
   }, [data.pomodoro.timers]);
+
   const focusTimers = useMemo(() => {
     return data.pomodoro.timers.filter((timer) => timer.type === "FOCUS");
   }, [data.pomodoro.timers]);
@@ -60,7 +76,7 @@ export default function () {
         {data.timer.type} SESSION
       </div>
       <div className="font-nunito text-2xl font-bold uppercase">
-        {data.timer.type === "EXERCISE" ? "Back Wall Slides" : "Time To Work"}
+        {data.timer.type === "EXERCISE" ? data.exercise.name : "Time To Work"}
       </div>
       <div className="w-2/5 py-7">
         <Logo />
