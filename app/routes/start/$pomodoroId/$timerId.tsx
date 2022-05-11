@@ -58,6 +58,7 @@ export default function () {
   const exerciseTimers = useMemo(() => {
     return data.pomodoro.timers.filter((timer) => timer.type === "EXERCISE");
   }, [data.pomodoro.timers]);
+
   const focusTimers = useMemo(() => {
     return data.pomodoro.timers.filter((timer) => timer.type === "FOCUS");
   }, [data.pomodoro.timers]);
