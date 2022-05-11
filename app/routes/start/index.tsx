@@ -1,3 +1,4 @@
+import type { EXERCISE_GROUPS } from "@prisma/client";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
@@ -102,7 +103,7 @@ export const action: ActionFunction = async ({ request }) => {
   const exerciseTypes = [
     getFromFormData(formData, inputNames.firstExerciseType, "back"),
     getFromFormData(formData, inputNames.secondExerciseType, "chest"),
-  ];
+  ] as EXERCISE_GROUPS[];
 
   const newPomodoro = await createPomodoro({
     // userId: await getUserId(request),
@@ -114,6 +115,7 @@ export const action: ActionFunction = async ({ request }) => {
       length: i % 2 == 0 ? focusLength : breakLength,
       pomodoroId: newPomodoro.id,
       type: i % 2 == 0 ? "FOCUS" : "EXERCISE",
+      exerciseGroup: i % 2 == 0 ? exerciseTypes[0] : exerciseTypes[1],
     });
     timers.push(newTimer.id);
   }

@@ -1,4 +1,4 @@
-import type { Pomodoro, Timer } from "@prisma/client";
+import type { EXERCISE_GROUPS, Pomodoro, Timer } from "@prisma/client";
 
 import { db } from "~/db.server";
 
@@ -37,8 +37,10 @@ export function createTimer({
   length,
   pomodoroId,
   type,
+  exerciseGroup,
 }: Pick<Timer, "length" | "type"> & {
   pomodoroId?: Pomodoro["id"];
+  exerciseGroup?: EXERCISE_GROUPS;
 }) {
   return db.timer.create({
     data: {
@@ -49,6 +51,7 @@ export function createTimer({
           id: pomodoroId,
         },
       },
+      exerciseGroup,
     },
   });
 }
