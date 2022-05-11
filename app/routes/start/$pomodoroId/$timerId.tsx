@@ -12,11 +12,11 @@ import { CountdownClock } from "~/components/CountdownClock";
 import { Logo } from "~/components/Logo";
 import { TimerTimeline } from "~/components/TimerTimeline";
 import { db } from "~/db.server";
-import { useSound } from "~/hooks/useSound";
 import { getPomodoro } from "~/models/pomodoro.server";
 import { getTimer } from "~/models/timer.server";
 import type { Exercise } from "contentlayer";
 import { getRandomExerciseByGroup } from "~/models/exercise.server";
+import useSound from "use-sound";
 
 type LoaderData = {
   pomodoro: Pomodoro & {
@@ -67,7 +67,7 @@ export default function () {
   }, [data.pomodoro.timers]);
 
   const submit = useSubmit();
-  const [ding] = useSound(dingSound);
+  const [ding] = useSound(dingSound, { volume: 0.5 });
   const onEnd = useCallback(() => {
     submit(null, { method: "post" });
     ding();
