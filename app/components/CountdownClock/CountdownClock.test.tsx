@@ -28,11 +28,14 @@ test("Doesn't show negative time", async () => {
 
 test("Clicking pause/play button should stop/start timer", async () => {
   render(<CountdownClock length={1} />);
-  const togglePlay = screen.getByRole("button");
+  const togglePlay = screen.getByTestId("pauseButton");
   togglePlay.click();
   vi.advanceTimersByTime(1000);
   expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:01");
-  expect(screen.getByRole("button")).toHaveAttribute("aria-label", "Play");
+  expect(screen.getByTestId("pauseButton")).toHaveAttribute(
+    "aria-label",
+    "Play"
+  );
   vi.advanceTimersByTime(1000);
   expect(screen.getByTestId("countdown-text")).toHaveTextContent("0:01");
 

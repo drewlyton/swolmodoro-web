@@ -28,8 +28,21 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
           style={{ width: `${percentCompleted}%` }}
         ></div>
       </div>
-      <Button onClick={togglePlay} icon aria-label={paused ? "Play" : "Pause"}>
+      <Button
+        onClick={togglePlay}
+        icon
+        aria-label={paused ? "Play" : "Pause"}
+        data-testid="pauseButton"
+      >
         {paused ? <PlayIcon /> : <PauseIcon />}
+      </Button>
+      <Button
+        onClick={onEnd}
+        data-testid="skipButton"
+        display="outlined"
+        className="mt-2 rounded-none border-0 border-b-2 py-1 px-3 text-sm"
+      >
+        skip
       </Button>
     </>
   );
