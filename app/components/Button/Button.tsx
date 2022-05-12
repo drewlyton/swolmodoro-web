@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={[
         display === "contained"
           ? "bg-tomato text-white"
-          : "border-3 border-tomato",
+          : "border-3 border-tomato text-tomato",
         !icon
           ? "rounded-md px-7 py-3 font-nunito font-bold"
           : "flex h-24 w-24 items-center justify-center rounded-full  text-2xl",
