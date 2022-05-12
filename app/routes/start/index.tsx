@@ -115,7 +115,7 @@ export const action: ActionFunction = async ({ request }) => {
       length: i % 2 == 0 ? focusLength : breakLength,
       pomodoroId: newPomodoro.id,
       type: i % 2 == 0 ? "FOCUS" : "EXERCISE",
-      exerciseGroup: i % 2 == 0 ? exerciseTypes[0] : exerciseTypes[1],
+      exerciseGroup: i % 4 == 1 ? exerciseTypes[0] : exerciseTypes[1],
     });
     timers.push(newTimer.id);
   }

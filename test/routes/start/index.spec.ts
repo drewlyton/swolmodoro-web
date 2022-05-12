@@ -29,6 +29,8 @@ describe("Start action", () => {
     formData.append(inputNames.focusAmount, "3");
     formData.append(inputNames.focusLength, "2000");
     formData.append(inputNames.breakLength, "400");
+    formData.append(inputNames.firstExerciseType, "legs");
+    formData.append(inputNames.secondExerciseType, "back");
     const response: Response = await action({
       request: new Request("/start", { method: "POST", body: formData }),
       params: {},
@@ -37,6 +39,8 @@ describe("Start action", () => {
     const timers = await db.timer.findMany();
     expect(timers?.[0].length).toBe(2000);
     expect(timers?.[1].length).toBe(400);
+    expect(timers?.[1].exerciseGroup).toBe("legs");
+    expect(timers?.[3].exerciseGroup).toBe("back");
     expect(response.status).toEqual(302);
   });
 });
