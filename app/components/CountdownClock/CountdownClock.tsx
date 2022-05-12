@@ -1,6 +1,8 @@
 import React from "react";
 import { useTimer } from "~/hooks/useTimer";
 import { Button } from "../Button";
+import { PauseIcon } from "./PauseIcon";
+import { PlayIcon } from "./PlayIcon";
 
 type CountdownClockTypes = {
   length: number;
@@ -17,7 +19,7 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
   );
   return (
     <>
-      <div data-testid="countdown-text" className="my-6 text-7xl" role="timer">
+      <div data-testid="countdown-text" className="my-4 text-7xl" role="timer">
         {countdownString}
       </div>
       <div className={"my-5 h-1 w-full rounded-md bg-gray-200"}>
@@ -26,8 +28,8 @@ export const CountdownClock: React.FC<CountdownClockTypes> = ({
           style={{ width: `${percentCompleted}%` }}
         ></div>
       </div>
-      <Button onClick={togglePlay} className="w-full">
-        {paused ? "Play" : "Pause"}
+      <Button onClick={togglePlay} icon aria-label={paused ? "Play" : "Pause"}>
+        {paused ? <PlayIcon /> : <PauseIcon />}
       </Button>
     </>
   );

@@ -11,5 +11,9 @@ module.exports = {
     "**/*.test.{js,jsx,ts,tsx}",
     "**/*.spec.{js,jsx,ts,tsx}",
   ],
-  serverDependenciesToBundle: ["@headlessui/react", "@heroicons/react"],
+  serverDependenciesToBundle: [
+    "@headlessui/react",
+    "@heroicons/react",
+    "use-sound",
+  ],
 };

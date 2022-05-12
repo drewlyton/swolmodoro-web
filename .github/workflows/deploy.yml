@@ -46,12 +46,27 @@ jobs:
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
 
+      - name: ⚙️ Build
+        run: npm run build
+
       - name: 🔎 Type check
         run: npm run typecheck --if-present
 
   vitest:
     name: ⚡ Vitest
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: test
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.9.1
@@ -70,11 +85,8 @@ jobs:
       - name: ⚫️ Dotenv install
         run: npm i -g dotenv-cli
 
-      - name: 🐳 Docker compose
-        # the sleep is just there to give time for postgres to get started
-        run: docker-compose up -d && sleep 10
-        env:
-          DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/test"
+      - name: ⚙️ Build
+        run: npm run build
 
       - name: ⚡ Run unit tests
         run: npm run test

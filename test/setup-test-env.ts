@@ -13,7 +13,7 @@ expect.extend({
         message: () => `Expected response to have status of 302`,
       };
     }
-    if (getRedirectURL(received) === url) {
+    if (getRedirectURL(received) == url) {
       return {
         pass: true,
         message: () => `Expected response to redirect to ${url}`,
