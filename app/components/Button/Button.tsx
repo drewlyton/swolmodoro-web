@@ -8,33 +8,41 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * What background color to use
    */
-  display?: "contained" | "normal";
+  display?: "contained" | "outlined";
   /**
    * How large should the button be?
    */
   size?: "small" | "medium" | "large";
+  /**
+   * How large should the button be?
+   */
+  icon?: boolean;
   /**
    * Optional click handler
    */
   onClick?: () => void;
 }
 
-/**
- * Primary UI component for user interaction
- */
 export const Button: React.FC<ButtonProps> = ({
-  primary = false,
+  primary = true,
   size = "medium",
-  display = "normal",
+  display = "contained",
   children,
   className,
+  icon = false,
   ...props
 }) => {
   return (
     <button
       type="button"
       className={[
-        "rounded-md bg-tomato px-7 py-3 font-nunito font-bold text-white transition-all hover:opacity-80",
+        display === "contained"
+          ? "bg-tomato text-white"
+          : "border-3 border-tomato",
+        !icon
+          ? "rounded-md px-7 py-3 font-nunito font-bold"
+          : "flex h-24 w-24 items-center justify-center rounded-full  text-2xl",
+        "transition-all hover:opacity-80",
         className,
       ].join(" ")}
       {...props}
