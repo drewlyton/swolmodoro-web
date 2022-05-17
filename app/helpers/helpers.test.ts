@@ -1,4 +1,4 @@
-import { validateEmail } from "./helpers";
+import { getRandomNumber, validateEmail } from "./helpers";
 
 test("validateEmail returns false for non-emails", () => {
   expect(validateEmail(undefined)).toBe(false);
@@ -10,4 +10,21 @@ test("validateEmail returns false for non-emails", () => {
 
 test("validateEmail returns true for emails", () => {
   expect(validateEmail("kody@example.com")).toBe(true);
+});
+
+test("random number returns number less than max", () => {
+  expect(getRandomNumber(10)).toBeLessThanOrEqual(10);
+});
+
+test("random number returns different number sometimes", () => {
+  const runs = [
+    getRandomNumber(1),
+    getRandomNumber(1),
+    getRandomNumber(1),
+    getRandomNumber(1),
+    getRandomNumber(1),
+    getRandomNumber(1),
+  ];
+  expect(runs).toContain(0);
+  expect(runs).toContain(1);
 });
