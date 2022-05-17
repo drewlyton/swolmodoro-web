@@ -29,7 +29,7 @@ export const Navbar: React.FC<Props> = () => {
               ].join(" ")}
               end
             >
-              End
+              quit
             </NavLink>
           )}
         </div>
