@@ -23,10 +23,10 @@ export default function () {
   const data = useLoaderData<LoaderData>();
   return (
     <div>
-      <h2 className="mb-3 font-nunito text-4xl font-bold">Today,</h2>
+      <h2 className="mb-3 font-nunito text-5xl font-bold">Today,</h2>
       <Form method="post" className="space-y-6">
         <div className="flex items-center space-x-4">
-          <div>between</div>{" "}
+          <div className="text-2xl">between</div>{" "}
           <Select name={inputNames.focusAmount} defaultValue={4} required>
             <option value={3} className="text-base">
               three
@@ -43,9 +43,9 @@ export default function () {
               </option>
             ))}
           </Select>
-          <div>focus sessions,</div>
+          <div className="text-2xl">focus sessions,</div>
         </div>
-        <div className="flex items-center">I want to work my</div>
+        <div className="flex items-center text-2xl">I want to work my</div>
         <div className="flex items-center space-x-4">
           <Select
             name={inputNames.firstExerciseType}
@@ -58,7 +58,7 @@ export default function () {
               </option>
             ))}
           </Select>
-          <div>&</div>
+          <div className="text-2xl">&</div>
           <Select
             name={inputNames.secondExerciseType}
             required
@@ -72,7 +72,7 @@ export default function () {
           </Select>
         </div>
         <div className="flex items-center space-x-4">
-          <div>for</div>{" "}
+          <div className="text-2xl">for</div>{" "}
           <Select name={inputNames.breakLength} defaultValue={5 * 60} required>
             {exerciseLengths.map((num) => (
               <option key={num} value={num * 60}>
