@@ -1,6 +1,6 @@
 {
   "name": "swolmodoro",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "private": true,
   "description": "A pomodoro timer that prompts you to exercise in-between breaks.",
   "license": "",
