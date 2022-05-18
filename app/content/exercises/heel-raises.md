@@ -1,7 +1,8 @@
 ---
-name: Pike Pushup
+name: Heel Raises
 groups:
-  - name: shoulders
+  - name: ankles
+  - name: calves
 ---
 
 Get on the floor on all fours, positioning your hands slightly wider than your shoulders. Don't lock out the elbows; keep them slightly bent. Extend your legs back so you are balanced on your hands and toes, your feet hip-width apart.
