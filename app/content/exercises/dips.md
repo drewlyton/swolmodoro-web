@@ -1,7 +1,7 @@
 ---
 name: Dips
 groups:
-  - name: arms
+  - name: triceps
   - name: chest
   - name: shoulders
 ---

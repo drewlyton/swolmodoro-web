@@ -5,6 +5,7 @@ import { Form, useLoaderData } from "@remix-run/react";
 import { Button } from "~/components/Button";
 import { Select } from "~/components/Select";
 import { getFromFormData } from "~/helpers/form";
+import { exerciseTypes } from "~/models/exercise.server";
 import { createPomodoro } from "~/models/pomodoro.server";
 import { createTimer } from "~/models/timer.server";
 
@@ -12,7 +13,7 @@ type LoaderData = {
   exerciseTypes: string[];
 };
 export const loader: LoaderFunction = async () => {
-  return json({ exerciseTypes: ["back", "legs", "chest"] });
+  return json({ exerciseTypes: exerciseTypes });
 };
 
 const focusLengths = [10, 15, 20, 25, 30, 35, 40, 45];

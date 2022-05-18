@@ -21,3 +21,13 @@ export const getExercisesByGroup = async (
     return false;
   });
 };
+
+export const exerciseTypes: EXERCISE_GROUPS[] = [
+  "ankles",
+  "back",
+  "chest",
+  "core",
+  "legs",
+  "shoulders",
+  "triceps",
+];
