@@ -2,9 +2,11 @@ import type { EXERCISE_GROUPS } from "@prisma/client";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { Form, useLoaderData } from "@remix-run/react";
+import { useReducer } from "react";
 import { Button } from "~/components/Button";
 import { Select } from "~/components/Select";
 import { getFromFormData } from "~/helpers/form";
+import { getKeyByValue } from "~/helpers/helpers";
 import { exerciseTypes } from "~/models/exercise.server";
 import { createPomodoro } from "~/models/pomodoro.server";
 import { createTimer } from "~/models/timer.server";
@@ -22,31 +24,22 @@ const exerciseLengths = [2, 3, 5, 7, 10];
 
 export default function () {
   const data = useLoaderData<LoaderData>();
+  const [timeCalc, dispatch] = useReducer(timeCalcReducer, {
+    focusAmount: 4,
+    breakLength: 5 * 60,
+    focusLength: 25 * 60,
+    totalTime: 6900,
+  });
+  const updateTimeCalc = (e: any) => {
+    console.log("Here");
+    const inputNameKey = getKeyByValue(inputNames, e.target.name);
+    dispatch({ type: inputNameKey, payload: parseInt(e.target.value) });
+  };
   return (
     <div>
-      <h2 className="mb-3 font-nunito text-5xl font-bold">Today,</h2>
+      <h2 className="mb-7 font-nunito text-5xl font-bold">Today,</h2>
       <Form method="post" className="space-y-6">
-        <div className="flex items-center space-x-4">
-          <div className="text-2xl">between</div>{" "}
-          <Select name={inputNames.focusAmount} defaultValue={4} required>
-            <option value={3} className="text-base">
-              three
-            </option>
-            <option value={4}>four</option>
-            <option value={5}>five</option>
-          </Select>
-        </div>
-        <div className="flex items-center space-x-4">
-          <Select name={inputNames.focusLength} defaultValue={25 * 60} required>
-            {focusLengths.map((num) => (
-              <option key={num} value={num * 60}>
-                {num} minute
-              </option>
-            ))}
-          </Select>
-          <div className="text-2xl">focus sessions,</div>
-        </div>
-        <div className="flex items-center text-2xl">I want to work my</div>
+        <div className="flex items-center text-2xl">I want to move my</div>
         <div className="flex items-center space-x-4">
           <Select
             name={inputNames.firstExerciseType}
@@ -74,7 +67,12 @@ export default function () {
         </div>
         <div className="flex items-center space-x-4">
           <div className="text-2xl">for</div>{" "}
-          <Select name={inputNames.breakLength} defaultValue={5 * 60} required>
+          <Select
+            name={inputNames.breakLength}
+            defaultValue={5 * 60}
+            required
+            onChange={updateTimeCalc}
+          >
             {exerciseLengths.map((num) => (
               <option key={num} value={num * 60}>
                 {num} minutes
@@ -82,9 +80,45 @@ export default function () {
             ))}
           </Select>
         </div>
-        <Button type="submit" name="create-session" className="w-full">
-          Start Timer
-        </Button>
+        <div className="flex items-center space-x-4">
+          <div className="text-2xl">in-between</div>{" "}
+          <Select
+            name={inputNames.focusAmount}
+            defaultValue={4}
+            required
+            onChange={updateTimeCalc}
+          >
+            <option value={3} className="text-base">
+              three
+            </option>
+            <option value={4}>four</option>
+            <option value={5}>five</option>
+          </Select>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Select
+            name={inputNames.focusLength}
+            defaultValue={25 * 60}
+            required
+            onChange={updateTimeCalc}
+          >
+            {focusLengths.map((num) => (
+              <option key={num} value={num * 60}>
+                {num} minute
+              </option>
+            ))}
+          </Select>
+          <div className="text-2xl">focus sessions.</div>
+        </div>
+        <div className="text-center">
+          <Button type="submit" name="create-session" className="w-full">
+            Start Timer
+          </Button>
+          <small className="text-xs text-gray-400">
+            {Math.floor(timeCalc.totalTime / 3600)} hours and{" "}
+            {Math.floor((timeCalc.totalTime % 3600) / 60)} minutes
+          </small>
+        </div>
       </Form>
     </div>
   );
@@ -130,4 +164,43 @@ export const inputNames = {
   breakLength: "break-length",
   firstExerciseType: "first-exercise-type",
   secondExerciseType: "second-exercise-type",
+};
+
+type timeCalcAction = {
+  type: string;
+  payload: number;
+};
+
+type timeCalcState = {
+  focusAmount: number;
+  breakLength: number;
+  focusLength: number;
+  totalTime: number;
+};
+
+const timeCalcReducer = (
+  state: timeCalcState,
+  action: timeCalcAction
+): timeCalcState => {
+  let newState = { ...state };
+  switch (action.type) {
+    case "focusAmount":
+      newState = { ...state, focusAmount: action.payload };
+      break;
+    case "breakLength":
+      newState = { ...state, breakLength: action.payload };
+      break;
+    case "focusLength":
+      newState = { ...state, focusLength: action.payload };
+      break;
+    default:
+      return state;
+  }
+  newState = {
+    ...newState,
+    totalTime:
+      newState.focusLength * newState.focusAmount +
+      newState.breakLength * (newState.focusAmount - 1),
+  };
+  return newState;
 };
