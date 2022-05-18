@@ -1,4 +1,5 @@
 import React from "react";
+import { Spinner } from "../Spinner";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -30,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   className,
   icon = false,
+  disabled,
   ...props
 }) => {
   return (
@@ -42,12 +44,14 @@ export const Button: React.FC<ButtonProps> = ({
         !icon
           ? "rounded-md px-7 py-3 font-nunito font-bold"
           : "flex h-24 w-24 items-center justify-center rounded-full  text-2xl",
-        "transition-all hover:opacity-80",
+        "transition-all ",
+        disabled ? "bg-gray-300" : "hover:opacity-80",
         className,
       ].join(" ")}
+      disabled={disabled}
       {...props}
     >
-      {children}
+      {disabled ? <Spinner /> : children}
     </button>
   );
 };

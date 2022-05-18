@@ -1,10 +1,11 @@
 import type { EXERCISE_GROUPS } from "@prisma/client";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData, useTransition } from "@remix-run/react";
 import { useReducer } from "react";
 import { Button } from "~/components/Button";
 import { Select } from "~/components/Select";
+import { Spinner } from "~/components/Spinner";
 import { getFromFormData } from "~/helpers/form";
 import { getKeyByValue } from "~/helpers/helpers";
 import { exerciseTypes } from "~/models/exercise.server";
@@ -24,6 +25,7 @@ const exerciseLengths = [2, 3, 5, 7, 10];
 
 export default function () {
   const data = useLoaderData<LoaderData>();
+  const transition = useTransition();
   const [timeCalc, dispatch] = useReducer(timeCalcReducer, {
     focusAmount: 4,
     breakLength: 5 * 60,
@@ -110,7 +112,12 @@ export default function () {
           <div className="text-2xl">focus sessions.</div>
         </div>
         <div className="text-center">
-          <Button type="submit" name="create-session" className="w-full">
+          <Button
+            type="submit"
+            name="create-session"
+            className="w-full"
+            disabled={!!transition.submission}
+          >
             Start Timer
           </Button>
           <small className="text-xs text-gray-500">
