@@ -31,7 +31,6 @@ export default function () {
     totalTime: 6900,
   });
   const updateTimeCalc = (e: any) => {
-    console.log("Here");
     const inputNameKey = getKeyByValue(inputNames, e.target.name);
     dispatch({ type: inputNameKey, payload: parseInt(e.target.value) });
   };
