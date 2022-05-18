@@ -49,3 +49,7 @@ export function validateEmail(email: unknown): email is string {
 export function getRandomNumber(max: number): number {
   return Math.round(Math.random() * max);
 }
+
+export function getKeyByValue(object: Record<string, any>, value: any): string {
+  return Object.keys(object).find((key) => object[key] === value) || "";
+}

@@ -2,7 +2,9 @@ import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon } from "@heroicons/react/solid";
 import React, { Fragment, useMemo, useState } from "react";
 
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {}
+interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  onChange?: ({ target }: { target: { name: string; value: string } }) => void;
+}
 
 export const Select: React.FC<SelectProps> = ({
   children,
@@ -10,6 +12,7 @@ export const Select: React.FC<SelectProps> = ({
   name,
   placeholder,
   defaultValue,
+  onChange,
   ...props
 }) => {
   const options = useMemo(
@@ -26,6 +29,16 @@ export const Select: React.FC<SelectProps> = ({
     name: options?.find((option) => option.value === defaultValue)?.name || "",
     value: defaultValue,
   });
+  const changeHandler = (option: Option): void => {
+    setSelected(option);
+    if (onChange)
+      onChange({
+        target: {
+          name: name || "",
+          value: option.value?.toString() || "",
+        },
+      });
+  };
   return (
     <>
       <input
@@ -34,8 +47,10 @@ export const Select: React.FC<SelectProps> = ({
         hidden
         name={name}
         data-testid="select"
+        onChange={onChange}
+        {...props}
       />
-      <Listbox value={selected} onChange={setSelected}>
+      <Listbox value={selected} onChange={changeHandler}>
         <div className="relative">
           <Listbox.Button
             className={[
