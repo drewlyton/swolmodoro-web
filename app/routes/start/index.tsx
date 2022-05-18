@@ -13,7 +13,7 @@ type LoaderData = {
   exerciseTypes: string[];
 };
 export const loader: LoaderFunction = async () => {
-  return json({ exerciseTypes: exerciseTypes });
+  return json({ exerciseTypes });
 };
 
 const focusLengths = [10, 15, 20, 25, 30, 35, 40, 45];
