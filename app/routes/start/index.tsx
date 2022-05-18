@@ -113,7 +113,7 @@ export default function () {
           <Button type="submit" name="create-session" className="w-full">
             Start Timer
           </Button>
-          <small className="text-xs text-gray-400">
+          <small className="text-xs text-gray-500">
             {Math.floor(timeCalc.totalTime / 3600)} hours and{" "}
             {Math.floor((timeCalc.totalTime % 3600) / 60)} minutes
           </small>
