@@ -67,6 +67,11 @@ enum TimerStatus {
 
 enum EXERCISE_GROUPS {
   chest
+  triceps
   back
+  biceps
+  shoulders
   legs
+  ankles
+  core
 }
